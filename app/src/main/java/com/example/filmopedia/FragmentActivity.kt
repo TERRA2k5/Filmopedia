@@ -29,11 +29,14 @@ class FragmentActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_fragment)
         auth = Firebase.auth
 
+        ReplaceFrag(Home_Fragment())
+
         binding.bottomNav.setOnItemSelectedListener{
 
             when(it.itemId){
 
                 R.id.home -> {
+
                     ReplaceFrag(Home_Fragment())
                 }
 
