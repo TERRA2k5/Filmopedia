@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "671815844859",
+    "project_id": "filmopedia-ff2e4",
+    "storage_bucket": "filmopedia-ff2e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671815844859:android:466c939ee4400fda7f415e",
+        "android_client_info": {
+          "package_name": "com.example.filmopedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671815844859-qf906pebrl59ll17lsaq2s24u257h19n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.filmopedia",
+            "certificate_hash": "b5db2ffbea5aa66407849d47cb8ee9b0d4723ea7"
+          }
+        },
+        {
+          "client_id": "671815844859-aic0mgeeccm4ivq4rnjibptdgpkrtroi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRMpNh7cK0SV2du4hACp1QEXAW4Z6OGtE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671815844859-aic0mgeeccm4ivq4rnjibptdgpkrtroi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
