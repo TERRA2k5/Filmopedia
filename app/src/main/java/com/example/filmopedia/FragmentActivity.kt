@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.example.filmopedia.databinding.ActivityFragmentBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
@@ -28,6 +29,30 @@ class FragmentActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_fragment)
         auth = Firebase.auth
 
+        binding.bottomNav.setOnItemSelectedListener{
+
+            when(it.itemId){
+
+                R.id.home -> {
+                    ReplaceFrag(Home_Fragment())
+                }
+
+                R.id.watchlist ->{
+                    ReplaceFrag()
+                }
+            }
+            true
+
+        }
+
+    }
+
+    private fun ReplaceFrag(fragment: Fragment){
+
+        val fragTrans = supportFragmentManager.beginTransaction()
+
+        fragTrans.replace(R.id.container , fragment)
+        fragTrans.commit()
     }
 
 
