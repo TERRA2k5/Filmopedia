@@ -38,7 +38,11 @@ class FragmentActivity : AppCompatActivity() {
                 }
 
                 R.id.watchlist ->{
-                    ReplaceFrag()
+                    ReplaceFrag(WatchList_Fragment())
+                }
+
+                R.id.search ->{
+                    ReplaceFrag(Search_Fragment())
                 }
             }
             true
