@@ -32,9 +32,16 @@ class SignUpActivity : AppCompatActivity() {
         database = Firebase.database.reference
         auth = Firebase.auth
 
+        binding.tvSignIn.setOnClickListener(){
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+        }
+
         binding.btnSignUp.setOnClickListener() {
-//            Check()
-            CreateUser()
+            if (Check()){
+            }
+
+            else{ CreateUser() }
         }
     }
 
@@ -86,17 +93,30 @@ class SignUpActivity : AppCompatActivity() {
         TODO("Not yet implemented")
     }
 
-//    private fun Check(){
-//        val email = binding.emailUp.text.toString()
-//
-//        val pass = binding.passwordUp.text.toString()
-//
-//        if (email == ""){
-//            binding.emailUp.error = "This is Required"
-//        }
-//
-//        if (pass ==""){
-//            binding.passwordUp.error = "This is Required"
-//        }
-//    }
+    private fun Check(): Boolean{
+        val name = binding.username.text.toString()
+
+        val email = binding.emailUp.text.toString()
+
+        val pass = binding.passwordUp.text.toString()
+
+        var condition = false
+
+        if (name == ""){
+            binding.username.error = "This is Required"
+            condition = true
+        }
+
+        if (email == ""){
+            binding.emailUp.error = "This is Required"
+            condition = true
+        }
+
+        if (pass ==""){
+            binding.passwordUp.error = "This is Required"
+            condition = true
+        }
+
+        return condition
+    }
 }

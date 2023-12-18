@@ -33,7 +33,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnSignIn.setOnClickListener(){
-            login()
+            if (Check()){
+            }
+
+            else{ login() }
         }
     }
 
@@ -86,5 +89,27 @@ class MainActivity : AppCompatActivity() {
 //        Toast.makeText(this, "GoHome", Toast.LENGTH_SHORT).show()
         val i = Intent(this, FragmentActivity::class.java)
         startActivity(i)
+    }
+
+    private fun Check(): Boolean{
+
+        val email = binding.emailIn.text.toString()
+
+        val pass = binding.passwordIn.text.toString()
+
+        var condition = false
+
+
+        if (email == ""){
+            binding.emailIn.error = "This is Required"
+            condition = true
+        }
+
+        if (pass ==""){
+            binding.passwordIn.error = "This is Required"
+            condition = true
+        }
+
+        return condition
     }
 }
