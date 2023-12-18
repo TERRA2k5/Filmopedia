@@ -1,19 +1,22 @@
 package com.example.filmopedia
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
+import android.util.Log
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.liveData
+import com.example.filmopedia.data.MovieResponse
 import com.example.filmopedia.databinding.ActivityFragmentBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class FragmentActivity : AppCompatActivity() {
 
@@ -26,25 +29,33 @@ class FragmentActivity : AppCompatActivity() {
         installSplashScreen()
 
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_fragment)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_fragment)
         auth = Firebase.auth
 
         ReplaceFrag(Home_Fragment())
 
-        binding.bottomNav.setOnItemSelectedListener{
+        val retrofitService = ServiceAPI.getInstance().create(MoviesInterface::class.java)
 
-            when(it.itemId){
+        GlobalScope.launch {
+            val result = retrofitService.getMoviesList()
+            if (result != null)
+            // Checking the results
+                Log.d("TAGY", result.body().toString())
+        }
+        binding.bottomNav.setOnItemSelectedListener {
+
+            when (it.itemId) {
 
                 R.id.home -> {
 
                     ReplaceFrag(Home_Fragment())
                 }
 
-                R.id.watchlist ->{
+                R.id.watchlist -> {
                     ReplaceFrag(WatchList_Fragment())
                 }
 
-                R.id.search ->{
+                R.id.search -> {
                     ReplaceFrag(Search_Fragment())
                 }
             }
@@ -54,11 +65,11 @@ class FragmentActivity : AppCompatActivity() {
 
     }
 
-    private fun ReplaceFrag(fragment: Fragment){
+    private fun ReplaceFrag(fragment: Fragment) {
 
         val fragTrans = supportFragmentManager.beginTransaction()
 
-        fragTrans.replace(R.id.container , fragment)
+        fragTrans.replace(R.id.container, fragment)
         fragTrans.commit()
     }
 

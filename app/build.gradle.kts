@@ -80,4 +80,15 @@ dependencies {
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    val lifecycle_version = "2.6.2"
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
 }
