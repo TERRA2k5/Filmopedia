@@ -41,9 +41,18 @@ class FragmentActivity : AppCompatActivity() {
 
         GlobalScope.launch {
             val result = retrofitService.getMoviesList()
-            if (result != null)
+            val  list = result.body()?.results?.listIterator()
+            if (list != null){
+
+                while (list.hasNext()){
+                    val listItem = list.next()
+                    Log.i("TAGY" , listItem.titleText.text.toString())
+                }
+
+
+            }
             // Checking the results
-                Log.d("TAGY", result.body().toString())
+
         }
         binding.bottomNav.setOnItemSelectedListener {
 

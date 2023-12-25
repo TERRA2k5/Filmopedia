@@ -1,12 +1,21 @@
 package com.example.filmopedia.data
 
-import java.util.Objects
 
 
 data class MoviesData(
-    val primaryImage: Object,
-    val titleText: Object,
-    val releaseYear: Object
+    val primaryImage: Image,
+    val titleText: Title,
+    val releaseYear: Year
 )
 
+data class Title(
+    val text: Any
+)
 
+data class Image(
+    val url: Any
+)
+
+data class Year(
+    val year: Any
+)

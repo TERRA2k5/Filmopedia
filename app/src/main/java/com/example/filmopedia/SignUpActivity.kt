@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -38,10 +40,19 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.btnSignUp.setOnClickListener() {
-            if (Check()){
+            val email = binding.emailUp.text.toString()
+
+            if (emailValidator(email)){
+                if (Check()){
+                    //
+                }
+
+                else{ CreateUser() }
             }
 
-            else{ CreateUser() }
+            else{
+                binding.emailUp.error = "Enter valid Email ID"
+            }
         }
     }
 
@@ -79,18 +90,9 @@ class SignUpActivity : AppCompatActivity() {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAGY", "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-//                    updateUI(null)
+                    binding.tvError.setText("Something went wrong. Check you Internet Connection")
                 }
             }
-    }
-
-    private fun updateUI(user: FirebaseUser?) {
-        TODO("Not yet implemented")
     }
 
     private fun Check(): Boolean{
@@ -118,5 +120,15 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         return condition
+    }
+
+    public fun emailValidator(email: String): Boolean {
+        val pattern: Pattern
+        val matcher: Matcher
+        val EMAIL_PATTERN: String =
+            "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        pattern = Pattern.compile(EMAIL_PATTERN)
+        matcher = pattern.matcher(email)
+        return matcher.matches()
     }
 }

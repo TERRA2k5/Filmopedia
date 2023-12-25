@@ -1,6 +1,7 @@
 package com.example.filmopedia
 
 import com.example.filmopedia.data.MovieResponse
+import com.example.filmopedia.data.MoviesData
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
@@ -16,5 +17,6 @@ interface MoviesInterface {
     )
     @GET("/titles")
     suspend fun getMoviesList():Response<MovieResponse>
+
 
 }

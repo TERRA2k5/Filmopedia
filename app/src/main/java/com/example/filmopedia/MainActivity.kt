@@ -12,6 +12,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,10 +35,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnSignIn.setOnClickListener(){
-            if (Check()){
+
+            val email = binding.emailIn.text.toString()
+            if (emailValidator(email)){
+                if (Check()){
+                }
+
+                else{ login() }
             }
 
-            else{ login() }
+            else{
+                binding.emailIn.error = "Enter valid Email ID"
+            }
+
         }
     }
 
@@ -62,26 +73,17 @@ class MainActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("TAGY", "signInWithEmail:success")
                     val user = auth.currentUser
-//                    updateUI(user)
                     GoHome()
 
                     finish()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAGY", "signInWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-//                    updateUI(null)
+                    binding.tvError.setText("Email or Password entered is incorrect")
                 }
             }
     }
 
-    private fun updateUI(user: FirebaseUser?) {
-        TODO("Not yet implemented")
-    }
 
 
 
@@ -111,5 +113,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         return condition
+    }
+
+    public fun emailValidator(email: String): Boolean {
+        val pattern: Pattern
+        val matcher: Matcher
+        val EMAIL_PATTERN: String =
+            "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        pattern = Pattern.compile(EMAIL_PATTERN)
+        matcher = pattern.matcher(email)
+        return matcher.matches()
     }
 }
