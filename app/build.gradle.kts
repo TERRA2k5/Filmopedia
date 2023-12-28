@@ -3,6 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
 
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
+    id("kotlin-android")
+
 
     id("androidx.navigation.safeargs.kotlin")
 }
@@ -94,8 +97,8 @@ dependencies {
 
     implementation("com.squareup.picasso:picasso:2.8")
 
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.11.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     implementation("com.google.firebase:firebase-storage")
 }

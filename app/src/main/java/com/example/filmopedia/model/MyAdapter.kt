@@ -16,9 +16,6 @@ import com.example.filmopedia.data.MoviesData
 class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
-//    lateinit var binding: RecyclerViewholderBinding
-
-
     inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         val imPoster: ImageView
@@ -49,38 +46,8 @@ class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
 
         val item = movieList.get(position)
         holder.tvTitle.text = item.titleText.text.toString()
-//        Glide.with(context).load(item.primaryImage.url).into(holder.imPoster)
+        Glide.with(context).load(item.primaryImage.url).into(holder.imPoster)
 
     }
-
-//    inner class MyViewHolder( val binding: RecyclerViewholderBinding) :
-//        RecyclerView.ViewHolder(binding.root)
-//
-//    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-//
-////        val movieData: MoviesData = movieList[position]
-////        holder.bind(movieData)
-//
-//        holder.binding.setVariable(BR.moviedata , getItemId(position))
-//
-//    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-//
-//        binding = RecyclerViewholderBinding.inflate(
-//            LayoutInflater.from(parent.context),
-//            parent,
-//            false
-//        )
-////        val v: View = LayoutInflater.from(context).inflate(R.layout.recycler_viewholder , parent,false)
-//
-//        return MyViewHolder(binding)
-//    }
-//
-//
-//
-//    override fun getItemCount(): Int {
-//        return movieList.count()
-//    }
 
 }
