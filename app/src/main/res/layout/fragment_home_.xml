@@ -5,21 +5,13 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Home_Fragment">
+        tools:context=".Search_Fragment">
 
-        <!--     TODO: Update blank fragment layout -->
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHomeContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="invisible"
-                android:text="Home Fragment" />
-
-
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:background="@drawable/background" />
 
     </FrameLayout>
 </layout>

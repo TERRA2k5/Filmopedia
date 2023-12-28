@@ -16,7 +16,7 @@ interface MoviesInterface {
         "X-RapidAPI-Host: moviesdatabase.p.rapidapi.com"
     )
     @GET("/titles")
-    suspend fun getMoviesList():Response<MovieResponse>
+    fun getMoviesList(@Query("page") page: Int, @Query("list") list: String ):Call<MovieResponse>
 
 
 }

@@ -6,20 +6,22 @@ import android.util.Log
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmopedia.data.MovieResponse
-import com.example.filmopedia.data.MoviesData
+
 import com.example.filmopedia.databinding.ActivityFragmentBinding
+import com.example.filmopedia.model.MyAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class FragmentActivity : AppCompatActivity() {
 
@@ -37,23 +39,6 @@ class FragmentActivity : AppCompatActivity() {
 
         ReplaceFrag(Home_Fragment())
 
-        val retrofitService = ServiceAPI.getInstance().create(MoviesInterface::class.java)
-
-        GlobalScope.launch {
-            val result = retrofitService.getMoviesList()
-            val  list = result.body()?.results?.listIterator()
-            if (list != null){
-
-                while (list.hasNext()){
-                    val listItem = list.next()
-                    Log.i("TAGY" , listItem.titleText.text.toString())
-                }
-
-
-            }
-            // Checking the results
-
-        }
         binding.bottomNav.setOnItemSelectedListener {
 
             when (it.itemId) {
@@ -84,6 +69,5 @@ class FragmentActivity : AppCompatActivity() {
         fragTrans.replace(R.id.container, fragment)
         fragTrans.commit()
     }
-
 
 }
