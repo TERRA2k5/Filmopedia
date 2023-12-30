@@ -22,6 +22,7 @@ class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
         val tvTitle: TextView
         val imBookMark: ImageView
 
+
         init{
             imPoster = itemView.findViewById(R.id.imPoster)
             imBookMark = itemView.findViewById(R.id.imBookmark)
@@ -42,12 +43,14 @@ class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
         return movieList.count()
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int){
 
         val item = movieList.get(position)
         holder.tvTitle.text = item.titleText.text.toString()
         Glide.with(context).load(item.primaryImage.url).into(holder.imPoster)
 
     }
+
+
 
 }

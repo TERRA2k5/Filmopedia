@@ -23,7 +23,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-
 class Home_Fragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: MyAdapter
@@ -32,10 +31,48 @@ class Home_Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-//        Toast.makeText(context, "OnCreateView Function Started", Toast.LENGTH_SHORT).show()
-        binding = DataBindingUtil.inflate(inflater , R.layout.fragment_home_ , container , false)
 
-        var page : Int = 1
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_, container, false)
+
+        var page: Int = 1
+
+        getRecycler(page)
+
+        binding.imgNext.setOnClickListener() {
+            page++
+            binding.page.text = page.toString()
+            getRecycler(page)
+        }
+        binding.nextBtn.setOnClickListener() {
+            page++
+            binding.page.text = page.toString()
+            getRecycler(page)
+        }
+
+
+        binding.prevBtn.setOnClickListener() {
+            if (page > 1) {
+                page--
+                binding.page.text = page.toString()
+                getRecycler(page)
+            }
+        }
+        binding.prevBtn.setOnClickListener() {
+            if (page > 1) {
+                page--
+                binding.page.text = page.toString()
+                getRecycler(page)
+            }
+        }
+
+
+
+
+
+        return binding.root
+    }
+
+    fun getRecycler(page: Int) {
 
         val retrofitbuilder = Retrofit.Builder()
             .baseUrl("https://moviesdatabase.p.rapidapi.com")
@@ -44,27 +81,28 @@ class Home_Fragment : Fragment() {
             .create(MoviesInterface::class.java)
 
 
-        val retrofitData = retrofitbuilder.getMoviesList( page , "top_boxoffice_200" )
+        val retrofitData = retrofitbuilder.getMoviesList(page, "top_boxoffice_200")
 
-        retrofitData.enqueue(object: Callback<MovieResponse?> {
+        retrofitData.enqueue(object : Callback<MovieResponse?> {
 
-            override fun onResponse(call: Call<MovieResponse?>, response: Response<MovieResponse?>) {
+            override fun onResponse(
+                call: Call<MovieResponse?>,
+                response: Response<MovieResponse?>
+            ) {
                 var responsebody = response.body()
                 val movieList = responsebody?.results!!
 
-                if (movieList != null){
-                    adapter = MyAdapter(context!! , movieList)
+                if (movieList != null) {
+                    adapter = MyAdapter(context!!, movieList)
                     binding.rvHomeContainer.adapter = adapter
 
-                    binding.rvHomeContainer.layoutManager = GridLayoutManager( context!! , 2)
+                    binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
                 }
             }
 
             override fun onFailure(call: Call<MovieResponse?>, t: Throwable) {
-                Log.i("RetroFail" , "Failure")
+                Log.i("RetroFail", "Failure")
             }
         })
-
-        return binding.root
     }
 }
