@@ -27,12 +27,13 @@
             android:background="@drawable/viewholder_background">
 
 
-            <ImageView
-                android:id="@+id/imBookmark"
+            <CheckBox
+                android:id="@+id/Bookmark"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-
+                android:button="@drawable/baseline_bookmark_border_24_black"
                 android:layout_marginStart="5dp"
+                app:useMaterialThemeColors = "false"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/baseline_bookmark_border_24"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,8 +43,8 @@
                 android:id="@+id/imPoster"
                 android:layout_width="150dp"
                 android:layout_height="170dp"
-
                 android:layout_marginTop="35dp"
+                android:src="@drawable/notfound"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:text="   "
+                android:text="TITLE"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

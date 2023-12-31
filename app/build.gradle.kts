@@ -99,6 +99,9 @@ dependencies {
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     implementation("com.google.firebase:firebase-storage")
+    // Add the dependency for the Realtime Database library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-database")
 
     val paging_version = "3.2.1"
 

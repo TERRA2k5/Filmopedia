@@ -8,14 +8,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.filmopedia.data.MovieResponse
 import com.example.filmopedia.databinding.FragmentHomeBinding
 import com.example.filmopedia.model.MyAdapter
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.database
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +28,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Home_Fragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: MyAdapter
+    private lateinit var database: DatabaseReference
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,24 +38,36 @@ class Home_Fragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_, container, false)
 
+        database = Firebase.database.reference
+
         var page: Int = 1
 
         getRecycler(page)
 
         binding.imgNext.setOnClickListener() {
-            page++
-            binding.page.text = page.toString()
-            getRecycler(page)
+            if (page < 20) {
+                binding.progressBar2.visibility = View.VISIBLE
+                page++
+                binding.page.text = page.toString()
+                getRecycler(page)
+            }
+
         }
         binding.nextBtn.setOnClickListener() {
-            page++
-            binding.page.text = page.toString()
-            getRecycler(page)
+            if (page < 20) {
+                binding.progressBar2.visibility = View.VISIBLE
+
+                page++
+                binding.page.text = page.toString()
+                getRecycler(page)
+            }
         }
 
 
         binding.prevBtn.setOnClickListener() {
             if (page > 1) {
+                binding.progressBar2.visibility = View.VISIBLE
+
                 page--
                 binding.page.text = page.toString()
                 getRecycler(page)
@@ -59,15 +75,13 @@ class Home_Fragment : Fragment() {
         }
         binding.prevBtn.setOnClickListener() {
             if (page > 1) {
+                binding.progressBar2.visibility = View.VISIBLE
+
                 page--
                 binding.page.text = page.toString()
                 getRecycler(page)
             }
         }
-
-
-
-
 
         return binding.root
     }
@@ -91,13 +105,13 @@ class Home_Fragment : Fragment() {
             ) {
                 var responsebody = response.body()
                 val movieList = responsebody?.results!!
+                binding.progressBar2.visibility = View.GONE
 
-                if (movieList != null) {
-                    adapter = MyAdapter(context!!, movieList)
-                    binding.rvHomeContainer.adapter = adapter
+                adapter = MyAdapter(context!!, movieList)
+                binding.rvHomeContainer.adapter = adapter
 
-                    binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
-                }
+                binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
+
             }
 
             override fun onFailure(call: Call<MovieResponse?>, t: Throwable) {

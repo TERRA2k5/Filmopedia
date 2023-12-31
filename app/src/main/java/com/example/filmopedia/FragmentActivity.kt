@@ -5,11 +5,16 @@ import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.example.filmopedia.data.MovieResponse
+import com.example.filmopedia.data.MoviesData
 
 import com.example.filmopedia.databinding.ActivityFragmentBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.StorageReference
 
 
 class FragmentActivity : AppCompatActivity() {
@@ -35,6 +40,7 @@ class FragmentActivity : AppCompatActivity() {
                 R.id.home -> {
 
                     ReplaceFrag(Home_Fragment())
+
                 }
 
                 R.id.watchlist -> {
