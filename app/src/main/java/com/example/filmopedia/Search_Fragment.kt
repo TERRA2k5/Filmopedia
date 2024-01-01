@@ -39,24 +39,27 @@ open class Search_Fragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_, container, false)
 
         binding.searchBtn.clearFocus()
+        binding.progressBarSearch.visibility = View.GONE
+
 
 
         binding.searchBtn.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (query != null) {
+
+                        binding.progressBarSearch.visibility = View.VISIBLE
                         getRecycler(query)
+
                     }
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
 
-                    if (newText != null) {
-                        getRecycler(newText)
+                    if (newText != "") {
+                        getRecycler(newText!!)
                     }
-                    return true
-
                     return true
                 }
 
@@ -77,6 +80,7 @@ open class Search_Fragment : Fragment() {
 
         val retrofitData = retrofitbuilder.getMoviesSearch(key)
 
+
         retrofitData.enqueue(object : Callback<MovieResponse?> {
 
             override fun onResponse(
@@ -86,10 +90,14 @@ open class Search_Fragment : Fragment() {
                 var responsebody = response.body()
                 val movieList = responsebody?.results!!
 
-//                binding.progressBar.visibility = View.GONE
+                binding.progressBarSearch.visibility = View.GONE
 
                 adapter = SearchAdapter(context!!, movieList)
                 binding.rvSearchContainer.adapter = adapter
+
+                if(adapter.itemCount == 0){
+                    binding.noresult.setText("No Movies Found")
+                }
 
                 binding.rvSearchContainer.layoutManager = GridLayoutManager(context!!, 2)
             }
