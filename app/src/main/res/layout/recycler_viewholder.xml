@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="10dp"
-    android:layout_marginLeft="10dp">
+    android:layout_marginLeft="20dp">
 
     <data>
 
@@ -18,26 +18,28 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
         android:layout_width="160dp"
+
+        android:elevation="30sp"
         android:layout_height="250dp"
-        app:cardCornerRadius="30dp">
+        app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/viewholder_background">
+            android:background="@color/grey_2">
 
 
             <CheckBox
                 android:id="@+id/Bookmark"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:button="@drawable/baseline_bookmark_border_24_black"
                 android:layout_marginStart="5dp"
-                app:useMaterialThemeColors = "false"
                 android:layout_marginTop="5dp"
+                android:button="@drawable/baseline_bookmark_border_24_black"
                 android:src="@drawable/baseline_bookmark_border_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:useMaterialThemeColors="false" />
 
             <ImageView
                 android:id="@+id/imPoster"
@@ -54,9 +56,9 @@
                 android:layout_width="155dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:text="TITLE"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"

@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.filmopedia.databinding.FragmentHomeBinding
 import com.example.filmopedia.databinding.FragmentSearchBinding
 import com.example.filmopedia.model.MyAdapter
-import com.example.filmopedia.model.SearchAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,7 +29,7 @@ import retrofit2.http.Query
 open class Search_Fragment : Fragment() {
 
     lateinit var binding: FragmentSearchBinding
-    private lateinit var adapter: SearchAdapter
+    private lateinit var adapter: MyAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,8 +90,9 @@ open class Search_Fragment : Fragment() {
                 val movieList = responsebody?.results!!
 
                 binding.progressBarSearch.visibility = View.GONE
+                binding.noresult.setText("")
 
-                adapter = SearchAdapter(context!!, movieList)
+                adapter = MyAdapter(context!!, movieList)
                 binding.rvSearchContainer.adapter = adapter
 
                 if(adapter.itemCount == 0){
