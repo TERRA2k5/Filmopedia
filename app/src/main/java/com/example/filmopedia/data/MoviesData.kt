@@ -18,5 +18,5 @@ data class Image(
 )
 
 data class Year(
-    val year: Int
+    val year: Int?
 )

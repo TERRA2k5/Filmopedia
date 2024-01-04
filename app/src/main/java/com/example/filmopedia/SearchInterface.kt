@@ -15,6 +15,6 @@ interface SearchInterface{
         "X-RapidAPI-Host: moviesdatabase.p.rapidapi.com"
     )
     @GET("/titles/search/title/{key}")
-    fun getMoviesSearch(@Path("key") key : String): Call<MovieResponse>
+    fun getMoviesSearch(@Path("key") key : String , @Query("page") page : Int , @Query("sort") sort: String? ) : Call<MovieResponse>
 
 }

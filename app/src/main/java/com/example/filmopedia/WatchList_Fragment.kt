@@ -10,10 +10,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmopedia.data.MovieResponse
+import com.example.filmopedia.data.WatchListData
 import com.example.filmopedia.databinding.FragmentWatchListBinding
 import com.example.filmopedia.model.MyAdapter
+import com.example.filmopedia.model.WatchlistAdapter
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +28,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class WatchList_Fragment : Fragment() {
 
     private lateinit var binding: FragmentWatchListBinding
-    private lateinit var adapter: MyAdapter
+    private lateinit var adapter: WatchlistAdapter
+    lateinit var watchlist: ArrayList<WatchListData>
+    lateinit var dbRef : DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +39,36 @@ class WatchList_Fragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_watch_list_, container, false)
 
-//        binding.rvWatchList.layoutManager = GridLayoutManager(context , 2)
+        watchlist = arrayListOf<WatchListData>()
+
+
+        dbRef = FirebaseDatabase.getInstance().getReference("WatchList")
+
+        dbRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                watchlist.clear()
+
+                if (snapshot.exists()){
+                    for (i in snapshot.children){
+                        val data = i.getValue(WatchListData::class.java)
+                        watchlist.add(data!!)
+
+                    }
+
+                    adapter = WatchlistAdapter(context!!, watchlist)
+                    binding.rvWatchList?.adapter = adapter
+
+                    binding.rvWatchList?.layoutManager = GridLayoutManager(context , 2)
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
 
         return binding.root
     }

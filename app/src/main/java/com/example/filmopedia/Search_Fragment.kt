@@ -1,5 +1,6 @@
 package com.example.filmopedia
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,14 +9,23 @@ import android.view.View
 import com.example.filmopedia.data.MovieResponse
 import com.example.filmopedia.data.MoviesData
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.SearchView.OnQueryTextListener
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.filmopedia.data.WatchListData
 import com.example.filmopedia.databinding.FragmentHomeBinding
 import com.example.filmopedia.databinding.FragmentSearchBinding
 import com.example.filmopedia.model.MyAdapter
+import com.example.filmopedia.model.WatchlistAdapter
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,13 +52,116 @@ open class Search_Fragment : Fragment() {
 
 
 
+        var sortOption: String? = null
+
+        val sort = resources.getStringArray(R.array.Sort)
+
+        if (binding.btnSort != null) {
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item, sort
+            )
+            binding.btnSort.adapter = adapter
+        }
+
+        binding.btnSort.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+//                Log.i("hsh" , sort[position].toString())
+
+                if (sort[position].toString() == "Latest First"){
+                    sortOption = "year.decr"
+                }
+
+                else if (sort[position].toString() == "Old First"){
+                    sortOption = "year.incr"
+                }
+
+                else {
+                    sortOption = null
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                TODO("Not yet implemented")
+
+
+            }
+
+        }
+
+
+
+
+
+
+
         binding.searchBtn.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (query != null) {
+                        var page = 1
+
+                        var sorting: String? = sortOption
 
                         binding.progressBarSearch.visibility = View.VISIBLE
-                        getRecycler(query)
+
+                        if (sorting != null){
+                            getRecycler(query, page , sorting)
+
+                        }
+                        else{
+                            getRecycler(query, page , null)
+
+                        }
+
+
+                        binding.imgNext.setOnClickListener() {
+                            if (page < 20) {
+                                binding.progressBarSearch.visibility = View.VISIBLE
+                                page++
+                                binding.page.text = page.toString()
+                                getRecycler(query, page , sorting)
+                            }
+
+                        }
+                        binding.nextBtn.setOnClickListener() {
+                            if (page < 20) {
+                                binding.progressBarSearch.visibility = View.VISIBLE
+
+                                page++
+                                binding.page.text = page.toString()
+                                getRecycler(query, page , sorting)
+                            }
+                        }
+
+
+                        binding.prevBtn.setOnClickListener() {
+                            if (page > 1) {
+                                binding.progressBarSearch.visibility = View.VISIBLE
+
+                                page--
+                                binding.page.text = page.toString()
+                                getRecycler(query, page , sorting)
+                            }
+                        }
+                        binding.prevBtn.setOnClickListener() {
+                            if (page > 1) {
+                                binding.progressBarSearch.visibility = View.VISIBLE
+
+                                page--
+                                binding.page.text = page.toString()
+                                getRecycler(query, page , sorting)
+                            }
+                        }
 
                     }
                     return true
@@ -57,7 +170,57 @@ open class Search_Fragment : Fragment() {
                 override fun onQueryTextChange(newText: String?): Boolean {
 
                     if (newText != "") {
-                        getRecycler(newText!!)
+                        var page = 1
+                        var sorting: String? = sortOption
+
+
+                        if (sorting != null){
+                            getRecycler(newText!!, page , sorting)
+
+                        }
+                        else{
+                            getRecycler(newText!!, page , null)
+
+                        }
+
+                        binding.imgNext.setOnClickListener() {
+                            if (page < 20) {
+                                binding.progressBarSearch.visibility = View.VISIBLE
+                                page++
+                                binding.page.text = page.toString()
+                                getRecycler(newText, page , sorting)
+                            }
+
+                        }
+                        binding.nextBtn.setOnClickListener() {
+                            if (page < 20) {
+                                binding.progressBarSearch.visibility = View.VISIBLE
+
+                                page++
+                                binding.page.text = page.toString()
+                                getRecycler(newText, page ,sorting)
+                            }
+                        }
+
+
+                        binding.prevBtn.setOnClickListener() {
+                            if (page > 1) {
+                                binding.progressBarSearch.visibility = View.VISIBLE
+
+                                page--
+                                binding.page.text = page.toString()
+                                getRecycler(newText, page , sorting)
+                            }
+                        }
+                        binding.prevBtn.setOnClickListener() {
+                            if (page > 1) {
+                                binding.progressBarSearch.visibility = View.VISIBLE
+
+                                page--
+                                binding.page.text = page.toString()
+                                getRecycler(newText, page , sorting)
+                            }
+                        }
                     }
                     return true
                 }
@@ -68,7 +231,11 @@ open class Search_Fragment : Fragment() {
         return binding.root
     }
 
-    fun getRecycler(key: String) {
+
+
+
+    fun getRecycler(key: String , page: Int , sorting: String?) {
+
 
         val retrofitbuilder = Retrofit.Builder()
             .baseUrl("https://moviesdatabase.p.rapidapi.com")
@@ -77,7 +244,10 @@ open class Search_Fragment : Fragment() {
             .create(SearchInterface::class.java)
 
 
-        val retrofitData = retrofitbuilder.getMoviesSearch(key)
+        val retrofitData = retrofitbuilder.getMoviesSearch(key , page , sorting)
+
+        Log.i("TAGY" , sorting.toString())
+
 
 
         retrofitData.enqueue(object : Callback<MovieResponse?> {
@@ -91,8 +261,7 @@ open class Search_Fragment : Fragment() {
 
                 binding.progressBarSearch.visibility = View.GONE
                 binding.noresult.setText("")
-
-                adapter = MyAdapter(context!!, movieList)
+                adapter = MyAdapter(context!!, movieList )
                 binding.rvSearchContainer.adapter = adapter
 
                 if(adapter.itemCount == 0){

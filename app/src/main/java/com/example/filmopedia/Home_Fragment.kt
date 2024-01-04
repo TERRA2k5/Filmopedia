@@ -95,7 +95,7 @@ class Home_Fragment : Fragment() {
             .create(MoviesInterface::class.java)
 
 
-        val retrofitData = retrofitbuilder.getMoviesList(page, "top_boxoffice_200")
+        val retrofitData = retrofitbuilder.getMoviesList(page, "top_boxoffice_200" , "year.decr")
 
         retrofitData.enqueue(object : Callback<MovieResponse?> {
 
@@ -107,7 +107,7 @@ class Home_Fragment : Fragment() {
                 val movieList = responsebody?.results!!
                 binding.progressBar2.visibility = View.GONE
 
-                adapter = MyAdapter(context!!, movieList)
+                adapter = MyAdapter(context!!, movieList )
                 binding.rvHomeContainer.adapter = adapter
 
                 binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
