@@ -25,9 +25,9 @@
 
             <ImageView
                 android:id="@+id/imgPrev"
-                android:clickable="true"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:clickable="true"
                 android:src="@drawable/baseline_navigate_before_24"
                 app:layout_constraintEnd_toStartOf="@+id/prevBtn"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:clickable="true"
-                android:textColor="@color/black"
                 android:text=" Previous"
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,30 +67,60 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:clickable="true"
-                android:textColor="@color/black"
                 android:text="Next "
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <Spinner
+                android:id="@+id/btnSort"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@color/grey_1"
+                android:text="Sort"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                app:layout_constraintEnd_toStartOf="@+id/btnFilter"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/page"
+                app:layout_constraintVertical_weight="1" />
+
+            <Spinner
+                android:id="@+id/btnFilter"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@color/grey_1"
+                android:text="Filter"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                app:layout_constraintBottom_toBottomOf="@+id/btnSort"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btnSort"
+                app:layout_constraintTop_toTopOf="@+id/btnSort"
+                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintVertical_weight="1" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvHomeContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="32dp"
+                android:layout_height="0dp"
                 android:background="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/prevBtn"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSort"
+                tools:layout_editor_absoluteX="-16dp" />
 
             <ProgressBar
                 android:id="@+id/progressBar2"
-                android:indeterminate="true"
-                android:indeterminateTintMode="src_atop"
-                android:indeterminateTint="@color/grey_2"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/grey_2"
+                android:indeterminateTintMode="src_atop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -59,7 +59,7 @@ open class Search_Fragment : Fragment() {
         if (binding.btnSort != null) {
             val adapter = ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_item, sort
+                android.R.layout.simple_list_item_1, sort
             )
             binding.btnSort.adapter = adapter
         }

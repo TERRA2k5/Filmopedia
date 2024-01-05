@@ -13,12 +13,16 @@ import com.bumptech.glide.Glide
 import com.example.filmopedia.R
 import com.example.filmopedia.data.MoviesData
 import com.example.filmopedia.data.WatchListData
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
 
 class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListData>) :
     RecyclerView.Adapter<WatchlistAdapter.MyViewHolder>() {
 
-    val myRef = FirebaseDatabase.getInstance().getReference("WatchList")
+    private lateinit var auth: FirebaseAuth
+
 
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -68,6 +72,24 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
 
         holder.bookMark.setOnCheckedChangeListener { checkBox, isChecked ->
             val id = WatchListData(item.imdbID, item.title, item.url)
+
+            auth = Firebase.auth
+
+            var email = auth.currentUser?.email.toString()
+
+
+            email = email.replace(".", "")
+            email = email.replace("[", "")
+            email = email.replace("]", "")
+            email = email.replace("#", "")
+
+
+
+
+            val myRef = FirebaseDatabase.getInstance().getReference(email)
+
+
+
 
             if (isChecked) {
                 Toast.makeText(context, "checked on ${item.title}", Toast.LENGTH_SHORT)

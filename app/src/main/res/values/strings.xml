@@ -5,9 +5,38 @@
 
 
     <string-array name="Sort">
-        <item>Sort</item>
+        <item>Popular</item>
         <item>Old First</item>
         <item>Latest First</item>
+
+    </string-array>
+
+    <string-array name="Genre">
+        <item>All</item>
+        <item>Comedy</item>
+        <item>Drama</item>
+        <item>Action</item>
+        <item>Horror</item>
+        <item>Thriller</item>
+        <item>Western</item>
+        <item>Romance</item>
+        <item>Adult</item>
+        <item>Biography</item>
+        <item>Family</item>
+        <item>Crime</item>
+        <item>Adventure</item>
+        <item>Fantasy</item>
+        <item>Documentary</item>
+        <item>Animation</item>
+        <item>Mystery</item>
+        <item>Musical</item>
+        <item>Sport</item>
+        <item>Film-Noir</item>
+        <item>Game-Show</item>
+        <item>History</item>
+        <item>Sci-Fi</item>
+        <item>Talk-Show</item>
+        <item>War</item>
 
     </string-array>
 

@@ -16,10 +16,13 @@ import com.example.filmopedia.R
 import com.example.filmopedia.data.MoviesData
 import com.example.filmopedia.data.WatchListData
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
 import com.google.firebase.database.values
+import java.lang.StringBuilder
 import kotlin.math.log
 
 
@@ -27,7 +30,9 @@ class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
 
-    val myRef = FirebaseDatabase.getInstance().getReference("WatchList")
+
+    private lateinit var auth: FirebaseAuth
+
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -61,10 +66,11 @@ class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
 
         val item = movieList.get(position)
 
-        if (item.titleText != null){
+        if (item.titleText != null) {
             holder.tvTitle.text = item.titleText.text
         }
-        if (item.releaseYear != null){
+        Log.i("TAAGY", item.titleText.text)
+        if (item.releaseYear != null) {
             holder.tvYear.text = "Year: ${item.releaseYear.year}"
 
         }
@@ -73,7 +79,32 @@ class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
         }
 
         holder.BookMark.setOnCheckedChangeListener { checkBox, isChecked ->
-            val data = WatchListData(item.id, item.titleText.text, item.primaryImage.url , item.releaseYear.year)
+            val data = WatchListData(
+                item.id,
+                item.titleText.text,
+                item.primaryImage.url,
+                item.releaseYear.year
+            )
+
+            auth = Firebase.auth
+
+            var email = auth.currentUser?.email.toString()
+
+
+            Toast.makeText(context, "$email", Toast.LENGTH_SHORT).show()
+
+
+
+            email = email.replace(".", "")
+            email = email.replace("[", "")
+            email = email.replace("]", "")
+            email = email.replace("#", "")
+
+
+
+            val myRef = FirebaseDatabase.getInstance().getReference(email)
+
+
 
             if (isChecked) {
                 Toast.makeText(context, "checked on ${item.titleText.text}", Toast.LENGTH_SHORT)

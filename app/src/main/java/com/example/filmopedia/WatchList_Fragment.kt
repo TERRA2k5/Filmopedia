@@ -14,6 +14,9 @@ import com.example.filmopedia.data.WatchListData
 import com.example.filmopedia.databinding.FragmentWatchListBinding
 import com.example.filmopedia.model.MyAdapter
 import com.example.filmopedia.model.WatchlistAdapter
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -29,6 +32,7 @@ class WatchList_Fragment : Fragment() {
 
     private lateinit var binding: FragmentWatchListBinding
     private lateinit var adapter: WatchlistAdapter
+    private lateinit var auth: FirebaseAuth
     lateinit var watchlist: ArrayList<WatchListData>
     lateinit var dbRef : DatabaseReference
 
@@ -41,8 +45,17 @@ class WatchList_Fragment : Fragment() {
 
         watchlist = arrayListOf<WatchListData>()
 
+        auth = Firebase.auth
 
-        dbRef = FirebaseDatabase.getInstance().getReference("WatchList")
+        var email = auth.currentUser?.email.toString()
+
+        email = email.replace(".", "")
+        email = email.replace("[", "")
+        email = email.replace("]", "")
+        email = email.replace("#", "")
+
+
+        dbRef = FirebaseDatabase.getInstance().getReference(email)
 
         dbRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {

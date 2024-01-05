@@ -16,5 +16,5 @@ interface MoviesInterface {
         "X-RapidAPI-Host: moviesdatabase.p.rapidapi.com"
     )
     @GET("/titles")
-        fun getMoviesList(@Query("page") page: Int, @Query("list") list: String ,@Query("sort") sort: String?):Call<MovieResponse>
+        fun getMoviesList(@Query("page") page: Int, @Query("list") list: String? ,@Query("sort") sort: String? , @Query("genre") genre: String?):Call<MovieResponse>
 }

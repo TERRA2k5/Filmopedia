@@ -1,7 +1,11 @@
 package com.example.filmopedia
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -23,6 +27,8 @@ class FragmentActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -32,6 +38,7 @@ class FragmentActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         ReplaceFrag(Home_Fragment())
+
 
         binding.bottomNav.setOnItemSelectedListener {
 
@@ -64,5 +71,31 @@ class FragmentActivity : AppCompatActivity() {
         fragTrans.replace(R.id.container, fragment)
         fragTrans.commit()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+
+        menuInflater.inflate(R.menu.top_menu , menu)
+
+        return super.onCreateOptionsMenu(menu)
+
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == R.id.logout ) {
+
+            auth = Firebase.auth
+
+            auth.signOut()
+
+            val i: Intent = Intent(this , MainActivity::class.java)
+            startActivity(i)
+        }
+        return super.onOptionsItemSelected(item)
+
+    }
+
 
 }
