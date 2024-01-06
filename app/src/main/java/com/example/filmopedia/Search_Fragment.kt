@@ -22,8 +22,12 @@ import com.example.filmopedia.databinding.FragmentHomeBinding
 import com.example.filmopedia.databinding.FragmentSearchBinding
 import com.example.filmopedia.model.MyAdapter
 import com.example.filmopedia.model.WatchlistAdapter
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import retrofit2.Call
@@ -40,7 +44,9 @@ open class Search_Fragment : Fragment() {
 
     lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: MyAdapter
-//    lateinit var watchlist: ArrayList<WatchListData>
+
+    lateinit var dbRef : DatabaseReference
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -245,20 +251,77 @@ open class Search_Fragment : Fragment() {
                 response: Response<MovieResponse?>
             ) {
                 var responsebody = response.body()
-//                watchlist = arrayListOf<WatchListData>()
-
                 val movieList = responsebody?.results!!
 
-                binding.progressBarSearch.visibility = View.GONE
-                binding.noresult.setText("")
-                adapter = MyAdapter(context!!, movieList , /* watchlist */)
-                binding.rvSearchContainer.adapter = adapter
 
-                if(adapter.itemCount == 0){
-                    binding.noresult.setText("No Movies Found")
-                }
 
-                binding.rvSearchContainer.layoutManager = GridLayoutManager(context!!, 2)
+
+                auth = Firebase.auth
+                var email = auth.currentUser?.email.toString()
+
+                email = email.replace(".", "")
+                email = email.replace("[", "")
+                email = email.replace("]", "")
+                email = email.replace("#", "")
+
+                val watchlist = arrayListOf<WatchListData>()
+
+                dbRef = FirebaseDatabase.getInstance().getReference(email)
+
+                dbRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        watchlist.clear()
+
+                        if (snapshot.exists()) {
+                            for (i in snapshot.children) {
+                                val data = i.getValue(WatchListData::class.java)
+                                watchlist.add(data!!)
+                            }
+
+//                            Log.i("TAGY" , watchlist[0].imdbID.toString())
+
+
+
+
+                            binding.progressBarSearch.visibility = View.GONE
+                            binding.noresult.setText("")
+
+
+                            adapter = MyAdapter(context!!, movieList  , watchlist)
+                            binding.rvSearchContainer.adapter = adapter
+
+                            if(adapter.itemCount == 0){
+                                binding.noresult.setText("No Movies Found")
+                            }
+
+                            binding.rvSearchContainer.layoutManager = GridLayoutManager(context!!, 2)
+
+
+                        }
+
+                        else{
+                            binding.progressBarSearch.visibility = View.GONE
+                            binding.noresult.setText("")
+
+
+                            adapter = MyAdapter(context!!, movieList  , watchlist)
+                            binding.rvSearchContainer.adapter = adapter
+
+                            if(adapter.itemCount == 0){
+                                binding.noresult.setText("No Movies Found")
+                            }
+
+                            binding.rvSearchContainer.layoutManager = GridLayoutManager(context!!, 2)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+
+
             }
 
             override fun onFailure(call: Call<MovieResponse?>, t: Throwable) {

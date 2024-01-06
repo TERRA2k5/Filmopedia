@@ -29,7 +29,7 @@ import kotlin.math.log
 class MyAdapter(
     var context: Context,
     var movieList: List<MoviesData>,
-//    var watchlist: ArrayList<WatchListData>
+    var watchlist: ArrayList<WatchListData>
 ) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
@@ -68,12 +68,12 @@ class MyAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val item = movieList.get(position)
+        val item = movieList[position]
 
         if (item.titleText != null) {
             holder.tvTitle.text = item.titleText.text
         }
-        Log.i("TAAGY", item.titleText.text)
+//        Log.i("TAAGY", item.titleText.text)
         if (item.releaseYear != null) {
             holder.tvYear.text = "Year: ${item.releaseYear.year}"
 
@@ -82,12 +82,15 @@ class MyAdapter(
             Glide.with(context).load(item.primaryImage.url).into(holder.imPoster)
         }
 
+        while (i < watchlist.count()){
+            if (watchlist[i].imdbID.toString() == item.id){
+                holder.BookMark.isChecked = true
+//                Toast.makeText(context, "${item.titleText.text}", Toast.LENGTH_SHORT).show()
+            }
+            i++
+        }
 
-//        val it = watchlist[i]
-//
-//        if (it.imdbID.toString() == item.id.toString()) {
-//            holder.BookMark.isChecked = true
-//        }
+        i = 0
 
 
 

@@ -10,16 +10,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.filmopedia.data.MovieResponse
 import com.example.filmopedia.data.WatchListData
 import com.example.filmopedia.databinding.FragmentHomeBinding
 import com.example.filmopedia.model.MyAdapter
+import com.example.filmopedia.model.WatchlistAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,10 +39,9 @@ class Home_Fragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: MyAdapter
 //    lateinit var watchlist: ArrayList<WatchListData>
-
+    lateinit var dbRef: DatabaseReference
     private lateinit var database: DatabaseReference
-//    private lateinit var auth: FirebaseAuth
-
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,8 +67,6 @@ class Home_Fragment : Fragment() {
         }
 
 
-
-
         val genre = resources.getStringArray(R.array.Genre)
         if (binding.btnFilter != null) {
             val adapter = ArrayAdapter(
@@ -71,9 +75,6 @@ class Home_Fragment : Fragment() {
             )
             binding.btnFilter.adapter = adapter
         }
-
-
-
 
 
         var genreOption: String? = null
@@ -93,29 +94,18 @@ class Home_Fragment : Fragment() {
 
                 if (genre[position].toString() != "All") {
                     genreOption = genre[position].toString()
-                }
-                else{
+                } else {
                     genreOption = null
                 }
                 binding.btnSort.setSelection(0)
 
-                getRecycler(page , list, "year.decr" , genreOption)
+                getRecycler(page, list, "year.decr", genreOption)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
         }
-
-
-
-
-
-
-
-
-
-
 
 
         var sortOption: String? = null
@@ -132,23 +122,24 @@ class Home_Fragment : Fragment() {
                 id: Long
             ) {
 
-                if (sort[position].toString() == "Popular"){
+                if (sort[position].toString() == "Popular") {
                     sortOption = "year.decr"
                     list = "top_boxoffice_200"
                     binding.progressBar2.visibility = View.VISIBLE
-                    getRecycler(page, list , sortOption , genreOption)                }
+                    getRecycler(page, list, sortOption, genreOption)
+                }
 
                 if (sort[position].toString() == "Latest First") {
                     sortOption = "year.decr"
                     list = null
                     binding.progressBar2.visibility = View.VISIBLE
-                    getRecycler(page, list , sortOption , genreOption)
+                    getRecycler(page, list, sortOption, genreOption)
 
                 } else if (sort[position].toString() == "Old First") {
                     sortOption = "year.incr"
-                    list=null
+                    list = null
                     binding.progressBar2.visibility = View.VISIBLE
-                    getRecycler(page, list , sortOption, genreOption)
+                    getRecycler(page, list, sortOption, genreOption)
 
                 } else {
                     sortOption = "year.decr"
@@ -169,7 +160,7 @@ class Home_Fragment : Fragment() {
 
 
 
-        getRecycler(page, "top_boxoffice_200" , "year.decr", null)
+        getRecycler(page, "top_boxoffice_200", "year.decr", null)
 
 
 
@@ -178,7 +169,7 @@ class Home_Fragment : Fragment() {
                 binding.progressBar2.visibility = View.VISIBLE
                 page++
                 binding.page.text = page.toString()
-                getRecycler(page,list, sortOption, genreOption)
+                getRecycler(page, list, sortOption, genreOption)
             }
 
         }
@@ -188,7 +179,7 @@ class Home_Fragment : Fragment() {
 
                 page++
                 binding.page.text = page.toString()
-                getRecycler(page,list, sortOption, genreOption)
+                getRecycler(page, list, sortOption, genreOption)
             }
         }
 
@@ -199,7 +190,7 @@ class Home_Fragment : Fragment() {
 
                 page--
                 binding.page.text = page.toString()
-                getRecycler(page,list, sortOption, genreOption)
+                getRecycler(page, list, sortOption, genreOption)
             }
         }
         binding.prevBtn.setOnClickListener() {
@@ -208,14 +199,14 @@ class Home_Fragment : Fragment() {
 
                 page--
                 binding.page.text = page.toString()
-                getRecycler(page,list, sortOption, genreOption)
+                getRecycler(page, list, sortOption, genreOption)
             }
         }
 
         return binding.root
     }
 
-    fun getRecycler(page: Int, list: String? ,  sorting: String?, genreOption: String?) {
+    fun getRecycler(page: Int, list: String?, sorting: String?, genreOption: String?) {
 
         val retrofitbuilder = Retrofit.Builder()
             .baseUrl("https://moviesdatabase.p.rapidapi.com")
@@ -234,15 +225,68 @@ class Home_Fragment : Fragment() {
                 response: Response<MovieResponse?>
             ) {
                 var responsebody = response.body()
-//                watchlist = arrayListOf<WatchListData>()
-
                 val movieList = responsebody?.results!!
-                binding.progressBar2.visibility = View.GONE
 
-                adapter = MyAdapter(context!!, movieList , /* watchlist */)
-                binding.rvHomeContainer.adapter = adapter
 
-                binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
+//                AlreadyChecked()
+
+
+                auth = Firebase.auth
+                var email = auth.currentUser?.email.toString()
+
+                email = email.replace(".", "")
+                email = email.replace("[", "")
+                email = email.replace("]", "")
+                email = email.replace("#", "")
+
+                val watchlist = arrayListOf<WatchListData>()
+
+                dbRef = FirebaseDatabase.getInstance().getReference(email)
+
+                dbRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        watchlist.clear()
+
+                        if (snapshot.exists()) {
+                            for (i in snapshot.children) {
+                                val data = i.getValue(WatchListData::class.java)
+                                watchlist.add(data!!)
+                            }
+
+//                            Log.i("TAGY" , watchlist[0].imdbID.toString())
+//                            Toast.makeText(context, "${watchlist.count()}", Toast.LENGTH_SHORT).show()
+
+
+
+
+
+                            binding.progressBar2.visibility = View.GONE
+
+                            adapter = MyAdapter(context!!, movieList  , watchlist)
+                            binding.rvHomeContainer.adapter = adapter
+
+                            binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
+
+
+                        }
+
+                        else{
+                            binding.progressBar2.visibility = View.GONE
+
+                            adapter = MyAdapter(context!!, movieList  , watchlist)
+                            binding.rvHomeContainer.adapter = adapter
+
+                            binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
+
+
 
             }
 
@@ -251,4 +295,5 @@ class Home_Fragment : Fragment() {
             }
         })
     }
+
 }
