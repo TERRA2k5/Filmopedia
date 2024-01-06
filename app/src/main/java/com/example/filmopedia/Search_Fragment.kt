@@ -40,6 +40,8 @@ open class Search_Fragment : Fragment() {
 
     lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: MyAdapter
+//    lateinit var watchlist: ArrayList<WatchListData>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,51 +54,51 @@ open class Search_Fragment : Fragment() {
 
 
 
-        var sortOption: String? = null
-
-        val sort = resources.getStringArray(R.array.Sort)
-
-        if (binding.btnSort != null) {
-            val adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_list_item_1, sort
-            )
-            binding.btnSort.adapter = adapter
-        }
-
-        binding.btnSort.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
-//                Log.i("hsh" , sort[position].toString())
-
-                if (sort[position].toString() == "Latest First"){
-                    sortOption = "year.decr"
-                }
-
-                else if (sort[position].toString() == "Old First"){
-                    sortOption = "year.incr"
-                }
-
-                else {
-                    sortOption = null
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                TODO("Not yet implemented")
-
-
-            }
-
-        }
+//        var sortOption: String? = null
+//
+//        val sort = resources.getStringArray(R.array.Sort)
+//
+//        if (binding.btnSort != null) {
+//            val adapter = ArrayAdapter(
+//                requireContext(),
+//                android.R.layout.simple_list_item_1, sort
+//            )
+//            binding.btnSort.adapter = adapter
+//        }
+//
+//        binding.btnSort.onItemSelectedListener = object :
+//            AdapterView.OnItemSelectedListener {
+//
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//
+////                Log.i("hsh" , sort[position].toString())
+//
+//                if (sort[position].toString() == "Latest First"){
+//                    sortOption = "year.decr"
+//                }
+//
+//                else if (sort[position].toString() == "Old First"){
+//                    sortOption = "year.incr"
+//                }
+//
+//                else {
+//                    sortOption = null
+//                }
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//
+//                TODO("Not yet implemented")
+//
+//
+//            }
+//
+//        }
 
 
 
@@ -110,18 +112,11 @@ open class Search_Fragment : Fragment() {
                     if (query != null) {
                         var page = 1
 
-                        var sorting: String? = sortOption
+//                        var sorting: String? = sortOption
 
                         binding.progressBarSearch.visibility = View.VISIBLE
 
-                        if (sorting != null){
-                            getRecycler(query, page , sorting)
-
-                        }
-                        else{
-                            getRecycler(query, page , null)
-
-                        }
+                        getRecycler(query, page)
 
 
                         binding.imgNext.setOnClickListener() {
@@ -129,7 +124,7 @@ open class Search_Fragment : Fragment() {
                                 binding.progressBarSearch.visibility = View.VISIBLE
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(query, page , sorting)
+                                getRecycler(query, page )
                             }
 
                         }
@@ -139,7 +134,7 @@ open class Search_Fragment : Fragment() {
 
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(query, page , sorting)
+                                getRecycler(query, page )
                             }
                         }
 
@@ -150,7 +145,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(query, page , sorting)
+                                getRecycler(query, page )
                             }
                         }
                         binding.prevBtn.setOnClickListener() {
@@ -159,7 +154,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(query, page , sorting)
+                                getRecycler(query, page )
                             }
                         }
 
@@ -171,24 +166,17 @@ open class Search_Fragment : Fragment() {
 
                     if (newText != "") {
                         var page = 1
-                        var sorting: String? = sortOption
+//                        var sorting: String? = sortOption
 
 
-                        if (sorting != null){
-                            getRecycler(newText!!, page , sorting)
-
-                        }
-                        else{
-                            getRecycler(newText!!, page , null)
-
-                        }
+                        getRecycler(newText!! , page)
 
                         binding.imgNext.setOnClickListener() {
                             if (page < 20) {
                                 binding.progressBarSearch.visibility = View.VISIBLE
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page , sorting)
+                                getRecycler(newText, page )
                             }
 
                         }
@@ -198,7 +186,7 @@ open class Search_Fragment : Fragment() {
 
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page ,sorting)
+                                getRecycler(newText, page )
                             }
                         }
 
@@ -209,7 +197,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page , sorting)
+                                getRecycler(newText, page )
                             }
                         }
                         binding.prevBtn.setOnClickListener() {
@@ -218,7 +206,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page , sorting)
+                                getRecycler(newText, page )
                             }
                         }
                     }
@@ -234,7 +222,7 @@ open class Search_Fragment : Fragment() {
 
 
 
-    fun getRecycler(key: String , page: Int , sorting: String?) {
+    fun getRecycler(key: String , page: Int) {
 
 
         val retrofitbuilder = Retrofit.Builder()
@@ -244,9 +232,9 @@ open class Search_Fragment : Fragment() {
             .create(SearchInterface::class.java)
 
 
-        val retrofitData = retrofitbuilder.getMoviesSearch(key , page , sorting)
+        val retrofitData = retrofitbuilder.getMoviesSearch(key , page)
 
-        Log.i("TAGY" , sorting.toString())
+//        Log.i("TAGY" , sorting.toString())
 
 
 
@@ -257,11 +245,13 @@ open class Search_Fragment : Fragment() {
                 response: Response<MovieResponse?>
             ) {
                 var responsebody = response.body()
+//                watchlist = arrayListOf<WatchListData>()
+
                 val movieList = responsebody?.results!!
 
                 binding.progressBarSearch.visibility = View.GONE
                 binding.noresult.setText("")
-                adapter = MyAdapter(context!!, movieList )
+                adapter = MyAdapter(context!!, movieList , /* watchlist */)
                 binding.rvSearchContainer.adapter = adapter
 
                 if(adapter.itemCount == 0){

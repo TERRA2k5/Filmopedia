@@ -48,6 +48,7 @@ class FragmentActivity : AppCompatActivity() {
 
                     ReplaceFrag(Home_Fragment())
 
+
                 }
 
                 R.id.watchlist -> {
@@ -67,6 +68,8 @@ class FragmentActivity : AppCompatActivity() {
     private fun ReplaceFrag(fragment: Fragment) {
 
         val fragTrans = supportFragmentManager.beginTransaction()
+        fragTrans.addToBackStack(null)
+
 
         fragTrans.replace(R.id.container, fragment)
         fragTrans.commit()

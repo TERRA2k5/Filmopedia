@@ -34,6 +34,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(i)
         }
 
+        binding.forget.setOnClickListener(){
+            val i = Intent(this, ForgetPassword::class.java)
+            startActivity(i)
+        }
+
         binding.btnSignIn.setOnClickListener(){
 
             val email = binding.emailIn.text.toString()

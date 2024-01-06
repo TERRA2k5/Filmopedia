@@ -36,8 +36,7 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:button="@drawable/baseline_bookmark_border_24_black"
-                android:src="@drawable/baseline_bookmark_border_24"
+                android:button="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:useMaterialThemeColors="false" />

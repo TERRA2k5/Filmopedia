@@ -26,12 +26,16 @@ import java.lang.StringBuilder
 import kotlin.math.log
 
 
-class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
+class MyAdapter(
+    var context: Context,
+    var movieList: List<MoviesData>,
+//    var watchlist: ArrayList<WatchListData>
+) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
 
-
     private lateinit var auth: FirebaseAuth
+    var i: Int = 0
 
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -78,6 +82,15 @@ class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
             Glide.with(context).load(item.primaryImage.url).into(holder.imPoster)
         }
 
+
+//        val it = watchlist[i]
+//
+//        if (it.imdbID.toString() == item.id.toString()) {
+//            holder.BookMark.isChecked = true
+//        }
+
+
+
         holder.BookMark.setOnCheckedChangeListener { checkBox, isChecked ->
             val data = WatchListData(
                 item.id,
@@ -91,15 +104,14 @@ class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
             var email = auth.currentUser?.email.toString()
 
 
-            Toast.makeText(context, "$email", Toast.LENGTH_SHORT).show()
-
+//            Toast.makeText(context, "$email", Toast.LENGTH_SHORT).show()
 
 
             email = email.replace(".", "")
             email = email.replace("[", "")
             email = email.replace("]", "")
             email = email.replace("#", "")
-
+            email = email.replace("$", "")
 
 
             val myRef = FirebaseDatabase.getInstance().getReference(email)
@@ -107,16 +119,17 @@ class MyAdapter(var context: Context, var movieList: List<MoviesData>) :
 
 
             if (isChecked) {
-                Toast.makeText(context, "checked on ${item.titleText.text}", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Added to WatchList", Toast.LENGTH_SHORT)
                     .show()
                 myRef.child(item.id).setValue(data)
 
             } else {
-                Toast.makeText(context, "unchecked on ${item.titleText.text}", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Removed from WatchList", Toast.LENGTH_SHORT)
                     .show()
                 myRef.child(item.id).removeValue()
             }
         }
+//        Toast.makeText(context, "${watchlist.count()}", Toast.LENGTH_SHORT).show()
 
 
     }

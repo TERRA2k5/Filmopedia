@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnFilter"
+                app:layout_constraintTop_toBottomOf="@+id/searchBtn"
                 tools:layout_editor_absoluteX="0dp" />
 
             <ProgressBar
@@ -115,8 +115,8 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="46dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="180dp"
-                android:layout_marginTop="76dp"
+                android:layout_marginStart="192dp"
+                android:layout_marginTop="296dp"
                 android:indeterminate="true"
                 android:indeterminateTint="@color/grey_2"
                 android:indeterminateTintMode="src_atop"
@@ -135,36 +135,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/searchBtn" />
-
-            <Spinner
-                android:id="@+id/btnFilter"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="50dp"
-                android:background="@color/grey_1"
-                android:text="Filter"
-                android:textColor="@color/white"
-                android:textSize="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/btnSort"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-                app:layout_constraintVertical_weight="1" />
-
-            <Spinner
-                android:id="@+id/btnSort"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="50dp"
-                android:background="@color/grey_1"
-                android:text="Sort"
-                android:textColor="@color/white"
-                android:textSize="25dp"
-                app:layout_constraintEnd_toStartOf="@+id/btnFilter"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-                app:layout_constraintVertical_weight="1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

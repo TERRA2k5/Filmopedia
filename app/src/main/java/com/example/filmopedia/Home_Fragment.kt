@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.filmopedia.data.MovieResponse
+import com.example.filmopedia.data.WatchListData
 import com.example.filmopedia.databinding.FragmentHomeBinding
 import com.example.filmopedia.model.MyAdapter
 import com.google.firebase.Firebase
@@ -30,8 +31,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Home_Fragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: MyAdapter
+//    lateinit var watchlist: ArrayList<WatchListData>
+
     private lateinit var database: DatabaseReference
-    private lateinit var auth: FirebaseAuth
+//    private lateinit var auth: FirebaseAuth
 
 
     override fun onCreateView(
@@ -231,10 +234,12 @@ class Home_Fragment : Fragment() {
                 response: Response<MovieResponse?>
             ) {
                 var responsebody = response.body()
+//                watchlist = arrayListOf<WatchListData>()
+
                 val movieList = responsebody?.results!!
                 binding.progressBar2.visibility = View.GONE
 
-                adapter = MyAdapter(context!!, movieList)
+                adapter = MyAdapter(context!!, movieList , /* watchlist */)
                 binding.rvHomeContainer.adapter = adapter
 
                 binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)

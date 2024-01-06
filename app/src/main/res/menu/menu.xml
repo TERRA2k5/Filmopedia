@@ -10,7 +10,7 @@
         android:title="Search" />
     <item
         android:id="@+id/watchlist"
-        android:icon="@drawable/baseline_bookmark_24"
+        android:icon="@drawable/baseline_favorite_24"
         android:title="WatchList" />
 
 </menu>

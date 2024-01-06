@@ -82,6 +82,8 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
             email = email.replace("[", "")
             email = email.replace("]", "")
             email = email.replace("#", "")
+            email = email.replace("$", "")
+
 
 
 
@@ -92,12 +94,12 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
 
 
             if (isChecked) {
-                Toast.makeText(context, "checked on ${item.title}", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Added to WatchList", Toast.LENGTH_SHORT)
                     .show()
                 myRef.child(item.imdbID.toString()).setValue(id)
 
             } else {
-                Toast.makeText(context, "unchecked on ${item.title}", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Removed from WatchList", Toast.LENGTH_SHORT)
                     .show()
                 myRef.child(item.imdbID.toString()).removeValue()
             }
