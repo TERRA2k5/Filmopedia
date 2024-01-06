@@ -229,6 +229,7 @@ class Home_Fragment : Fragment() {
 
 
 //                AlreadyChecked()
+                /*****************************************/
 
 
                 auth = Firebase.auth
@@ -272,6 +273,11 @@ class Home_Fragment : Fragment() {
                         }
 
                         else{
+
+                            // when watchlist is null
+
+
+
                             binding.progressBar2.visibility = View.GONE
 
                             adapter = MyAdapter(context!!, movieList  , watchlist)
@@ -285,6 +291,9 @@ class Home_Fragment : Fragment() {
                         TODO("Not yet implemented")
                     }
                 })
+
+                /*****************************************/
+
 
 
 

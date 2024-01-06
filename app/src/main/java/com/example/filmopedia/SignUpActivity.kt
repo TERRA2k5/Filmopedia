@@ -87,7 +87,13 @@ class SignUpActivity : AppCompatActivity() {
                     val user = auth.currentUser
 //                    updateUI(user)
                     GoHome()
-                } else {
+                }
+
+                else if (binding.passwordUp.length() < 6){
+
+                    binding.passwordUp.error = "Password must be at least 6 letters"
+                }
+                else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAGY", "createUserWithEmail:failure", task.exception)
                     binding.tvError.setText("Something went wrong. Check you Internet Connection")

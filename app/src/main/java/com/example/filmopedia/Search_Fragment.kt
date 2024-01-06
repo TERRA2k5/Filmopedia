@@ -301,6 +301,9 @@ open class Search_Fragment : Fragment() {
                         }
 
                         else{
+
+
+
                             binding.progressBarSearch.visibility = View.GONE
                             binding.noresult.setText("")
 
