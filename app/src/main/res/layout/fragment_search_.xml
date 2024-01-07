@@ -19,9 +19,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/offWhite"
-                app:layout_constraintBottom_toTopOf="@+id/searchBtn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
                     android:id="@+id/imgNext"
@@ -95,9 +95,9 @@
                 android:hint="Search Here ... "
                 android:shadowColor="@color/white"
                 android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-                app:layout_constraintVertical_weight="1"
+                app:layout_constraintTop_toTopOf="parent"
                 app:queryBackground="@android:color/transparent"
                 app:queryHint="Search Here.." />
 
@@ -106,7 +106,7 @@
                 android:id="@+id/rvSearchContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                 app:layout_constraintTop_toBottomOf="@+id/searchBtn"
                 tools:layout_editor_absoluteX="0dp" />
 

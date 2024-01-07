@@ -44,8 +44,7 @@ open class Search_Fragment : Fragment() {
 
     lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: MyAdapter
-
-    lateinit var dbRef : DatabaseReference
+    lateinit var dbRef: DatabaseReference
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
@@ -106,22 +105,17 @@ open class Search_Fragment : Fragment() {
 //
 //        }
 
-
-
-
-
+        var page = 1
+        binding.page.setText(page.toString())
 
 
         binding.searchBtn.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (query != null) {
-                        var page = 1
 
-//                        var sorting: String? = sortOption
 
                         binding.progressBarSearch.visibility = View.VISIBLE
-
                         getRecycler(query, page)
 
 
@@ -130,7 +124,7 @@ open class Search_Fragment : Fragment() {
                                 binding.progressBarSearch.visibility = View.VISIBLE
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(query, page )
+                                getRecycler(query, page)
                             }
 
                         }
@@ -140,7 +134,7 @@ open class Search_Fragment : Fragment() {
 
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(query, page )
+                                getRecycler(query, page)
                             }
                         }
 
@@ -151,7 +145,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(query, page )
+                                getRecycler(query, page)
                             }
                         }
                         binding.prevBtn.setOnClickListener() {
@@ -160,7 +154,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(query, page )
+                                getRecycler(query, page)
                             }
                         }
 
@@ -175,14 +169,14 @@ open class Search_Fragment : Fragment() {
 //                        var sorting: String? = sortOption
 
 
-                        getRecycler(newText!! , page)
+                        getRecycler(newText!!, page)
 
                         binding.imgNext.setOnClickListener() {
                             if (page < 20) {
                                 binding.progressBarSearch.visibility = View.VISIBLE
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page )
+                                getRecycler(newText, page)
                             }
 
                         }
@@ -192,7 +186,7 @@ open class Search_Fragment : Fragment() {
 
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page )
+                                getRecycler(newText, page)
                             }
                         }
 
@@ -203,7 +197,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page )
+                                getRecycler(newText, page)
                             }
                         }
                         binding.prevBtn.setOnClickListener() {
@@ -212,7 +206,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page )
+                                getRecycler(newText, page)
                             }
                         }
                     }
@@ -226,9 +220,7 @@ open class Search_Fragment : Fragment() {
     }
 
 
-
-
-    fun getRecycler(key: String , page: Int) {
+    fun getRecycler(key: String, page: Int) {
 
 
         val retrofitbuilder = Retrofit.Builder()
@@ -238,10 +230,9 @@ open class Search_Fragment : Fragment() {
             .create(SearchInterface::class.java)
 
 
-        val retrofitData = retrofitbuilder.getMoviesSearch(key , page)
+        val retrofitData = retrofitbuilder.getMoviesSearch(key, page)
 
 //        Log.i("TAGY" , sorting.toString())
-
 
 
         retrofitData.enqueue(object : Callback<MovieResponse?> {
@@ -282,40 +273,37 @@ open class Search_Fragment : Fragment() {
 //                            Log.i("TAGY" , watchlist[0].imdbID.toString())
 
 
+                            binding.progressBarSearch.visibility = View.GONE
+                            binding.noresult.setText("")
+
+
+                            adapter = MyAdapter(context!!, movieList, watchlist)
+                            binding.rvSearchContainer.adapter = adapter
+
+                            if (adapter.itemCount == 0) {
+                                binding.noresult.setText("No Movies Found")
+                            }
+
+                            binding.rvSearchContainer.layoutManager =
+                                GridLayoutManager(context!!, 2)
+
+
+                        } else {
 
 
                             binding.progressBarSearch.visibility = View.GONE
                             binding.noresult.setText("")
 
 
-                            adapter = MyAdapter(context!!, movieList  , watchlist)
+                            adapter = MyAdapter(context!!, movieList, watchlist)
                             binding.rvSearchContainer.adapter = adapter
 
-                            if(adapter.itemCount == 0){
+                            if (adapter.itemCount == 0) {
                                 binding.noresult.setText("No Movies Found")
                             }
 
-                            binding.rvSearchContainer.layoutManager = GridLayoutManager(context!!, 2)
-
-
-                        }
-
-                        else{
-
-
-
-                            binding.progressBarSearch.visibility = View.GONE
-                            binding.noresult.setText("")
-
-
-                            adapter = MyAdapter(context!!, movieList  , watchlist)
-                            binding.rvSearchContainer.adapter = adapter
-
-                            if(adapter.itemCount == 0){
-                                binding.noresult.setText("No Movies Found")
-                            }
-
-                            binding.rvSearchContainer.layoutManager = GridLayoutManager(context!!, 2)
+                            binding.rvSearchContainer.layoutManager =
+                                GridLayoutManager(context!!, 2)
                         }
                     }
 

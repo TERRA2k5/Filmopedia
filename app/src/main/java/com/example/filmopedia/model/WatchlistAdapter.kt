@@ -92,6 +92,7 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
 
 
 
+            /** adding to realtime database **/
 
             if (isChecked) {
                 Toast.makeText(context, "Added to WatchList", Toast.LENGTH_SHORT)

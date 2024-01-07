@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.filmopedia.data.MovieResponse
 import com.example.filmopedia.data.WatchListData
 import com.example.filmopedia.databinding.FragmentHomeBinding
@@ -38,7 +40,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Home_Fragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: MyAdapter
-//    lateinit var watchlist: ArrayList<WatchListData>
+
+    //    lateinit var watchlist: ArrayList<WatchListData>
     lateinit var dbRef: DatabaseReference
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
@@ -57,6 +60,8 @@ class Home_Fragment : Fragment() {
         var list: String? = null
 
 
+        /** making sort spinner **/
+
         val sort = resources.getStringArray(R.array.Sort)
         if (binding.btnSort != null) {
             val adapter = ArrayAdapter(
@@ -65,6 +70,9 @@ class Home_Fragment : Fragment() {
             )
             binding.btnSort.adapter = adapter
         }
+
+
+        /** making genre spinner **/
 
 
         val genre = resources.getStringArray(R.array.Genre)
@@ -77,9 +85,9 @@ class Home_Fragment : Fragment() {
         }
 
 
+        /** Genre query **/
+
         var genreOption: String? = null
-
-
 
         binding.btnFilter.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -94,8 +102,15 @@ class Home_Fragment : Fragment() {
 
                 if (genre[position].toString() != "All") {
                     genreOption = genre[position].toString()
+                    page = 1
+                    binding.page.setText(page.toString())
+
                 } else {
                     genreOption = null
+                    page = 1
+                    binding.page.setText(page.toString())
+
+
                 }
                 binding.btnSort.setSelection(0)
 
@@ -108,9 +123,9 @@ class Home_Fragment : Fragment() {
         }
 
 
+        /** Sorting query **/
+
         var sortOption: String? = null
-
-
 
         binding.btnSort.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -124,6 +139,8 @@ class Home_Fragment : Fragment() {
 
                 if (sort[position].toString() == "Popular") {
                     sortOption = "year.decr"
+                    page = 1
+                    binding.page.setText(page.toString())
                     list = "top_boxoffice_200"
                     binding.progressBar2.visibility = View.VISIBLE
                     getRecycler(page, list, sortOption, genreOption)
@@ -132,12 +149,16 @@ class Home_Fragment : Fragment() {
                 if (sort[position].toString() == "Latest First") {
                     sortOption = "year.decr"
                     list = null
+                    page = 1
+                    binding.page.setText(page.toString())
                     binding.progressBar2.visibility = View.VISIBLE
                     getRecycler(page, list, sortOption, genreOption)
 
                 } else if (sort[position].toString() == "Old First") {
                     sortOption = "year.incr"
                     list = null
+                    page = 1
+                    binding.page.setText(page.toString())
                     binding.progressBar2.visibility = View.VISIBLE
                     getRecycler(page, list, sortOption, genreOption)
 
@@ -152,16 +173,12 @@ class Home_Fragment : Fragment() {
         }
 
 
-
-
-
-
-
-
-
+        /** getting home page **/
 
         getRecycler(page, "top_boxoffice_200", "year.decr", null)
 
+
+        /** changing pages **/
 
 
         binding.imgNext.setOnClickListener() {
@@ -259,28 +276,22 @@ class Home_Fragment : Fragment() {
 //                            Toast.makeText(context, "${watchlist.count()}", Toast.LENGTH_SHORT).show()
 
 
-
-
-
                             binding.progressBar2.visibility = View.GONE
 
-                            adapter = MyAdapter(context!!, movieList  , watchlist)
+                            adapter = MyAdapter(context!!, movieList, watchlist)
                             binding.rvHomeContainer.adapter = adapter
 
                             binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
 
 
-                        }
-
-                        else{
+                        } else {
 
                             // when watchlist is null
 
 
-
                             binding.progressBar2.visibility = View.GONE
 
-                            adapter = MyAdapter(context!!, movieList  , watchlist)
+                            adapter = MyAdapter(context!!, movieList, watchlist)
                             binding.rvHomeContainer.adapter = adapter
 
                             binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
@@ -293,8 +304,6 @@ class Home_Fragment : Fragment() {
                 })
 
                 /*****************************************/
-
-
 
 
             }

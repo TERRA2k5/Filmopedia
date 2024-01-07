@@ -82,6 +82,9 @@ class MyAdapter(
             Glide.with(context).load(item.primaryImage.url).into(holder.imPoster)
         }
 
+
+        /** checking if alreadv added **/
+
         while (i < watchlist.count()){
             if (watchlist[i].imdbID.toString() == item.id){
                 holder.BookMark.isChecked = true
@@ -92,7 +95,7 @@ class MyAdapter(
 
         i = 0
 
-
+        /******************************/
 
         holder.BookMark.setOnCheckedChangeListener { checkBox, isChecked ->
             val data = WatchListData(
@@ -108,8 +111,6 @@ class MyAdapter(
 
 
 //            Toast.makeText(context, "$email", Toast.LENGTH_SHORT).show()
-
-
             email = email.replace(".", "")
             email = email.replace("[", "")
             email = email.replace("]", "")
@@ -117,9 +118,12 @@ class MyAdapter(
             email = email.replace("$", "")
 
 
+
             val myRef = FirebaseDatabase.getInstance().getReference(email)
 
 
+
+            /** adding to realtime database **/
 
             if (isChecked) {
                 Toast.makeText(context, "Added to WatchList", Toast.LENGTH_SHORT)

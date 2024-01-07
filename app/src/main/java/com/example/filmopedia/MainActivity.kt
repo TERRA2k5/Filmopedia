@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.tvSignUp.setOnClickListener(){
             val i = Intent(this, SignUpActivity::class.java)
+            finish()
             startActivity(i)
         }
 
@@ -95,6 +96,7 @@ class MainActivity : AppCompatActivity() {
     private fun GoHome() {
 //        Toast.makeText(this, "GoHome", Toast.LENGTH_SHORT).show()
         val i = Intent(this, FragmentActivity::class.java)
+        finish()
         startActivity(i)
     }
 

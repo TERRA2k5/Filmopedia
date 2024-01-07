@@ -27,6 +27,12 @@ class FragmentActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        // Close the app when the back button is pressed
+        finish()
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +44,7 @@ class FragmentActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         ReplaceFrag(Home_Fragment())
+//        finish()
 
 
         binding.bottomNav.setOnItemSelectedListener {
@@ -69,8 +76,6 @@ class FragmentActivity : AppCompatActivity() {
 
         val fragTrans = supportFragmentManager.beginTransaction()
         fragTrans.addToBackStack(null)
-
-
         fragTrans.replace(R.id.container, fragment)
         fragTrans.commit()
     }
@@ -93,7 +98,9 @@ class FragmentActivity : AppCompatActivity() {
 
             auth.signOut()
 
+
             val i: Intent = Intent(this , MainActivity::class.java)
+            finish()
             startActivity(i)
         }
         return super.onOptionsItemSelected(item)

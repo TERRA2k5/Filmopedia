@@ -68,6 +68,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun GoHome() {
         val i = Intent(this, FragmentActivity::class.java)
+        finish()
         startActivity(i)
     }
 
@@ -89,7 +90,7 @@ class SignUpActivity : AppCompatActivity() {
                     GoHome()
                 }
 
-                else if (binding.passwordUp.length() < 6){
+                else if (binding.passwordUp.length() < 8){
 
                     binding.passwordUp.error = "Password must be at least 6 letters"
                 }
