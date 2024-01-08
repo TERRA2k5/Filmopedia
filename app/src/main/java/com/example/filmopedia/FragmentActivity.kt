@@ -27,14 +27,6 @@ class FragmentActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
 
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        // Close the app when the back button is pressed
-//        finish()
-//    }
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -44,7 +36,6 @@ class FragmentActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         ReplaceFrag(Home_Fragment())
-//        finish()
 
 
         binding.bottomNav.setOnItemSelectedListener {
@@ -75,6 +66,7 @@ class FragmentActivity : AppCompatActivity() {
     private fun ReplaceFrag(fragment: Fragment) {
 
         val fragTrans = supportFragmentManager.beginTransaction()
+//        fragTrans.disallowAddToBackStack()
         fragTrans.addToBackStack(null)
         fragTrans.replace(R.id.container, fragment)
         fragTrans.commit()

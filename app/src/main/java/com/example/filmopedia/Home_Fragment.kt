@@ -219,6 +219,8 @@ class Home_Fragment : Fragment() {
         return binding.root
     }
 
+
+
     fun getRecycler(page: Int, list: String?, sorting: String?, genreOption: String?) {
 
         val retrofitbuilder = Retrofit.Builder()

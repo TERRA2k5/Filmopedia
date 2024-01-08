@@ -112,22 +112,35 @@ class MyAdapter(
 
             val data: WatchListData
 
+            var image_url: String? = null
+            var movie_title: String? = null
+            var imdb: String? = null
+            var release: Int?= null
+
+
             if (item.primaryImage != null){
-                data = WatchListData(
-                    item.id,
-                    item.titleText.text,
-                    item.primaryImage.url,
-                    item.releaseYear.year
-                )
+                image_url = item.primaryImage.url.toString()
             }
-            else{
-                data = WatchListData(
-                    item.id,
-                    item.titleText.text,
-                    null,
-                    item.releaseYear.year
-                )
+
+            if (item.titleText != null){
+                movie_title = item.titleText.text.toString()
             }
+
+            if (item.id != null){
+                imdb = item.id.toString()
+            }
+
+            if (item.releaseYear != null){
+                release = item.releaseYear.year.hashCode()
+            }
+
+
+            data = WatchListData(
+                imdb,
+                movie_title,
+                image_url,
+                release
+            )
 
 
             auth = Firebase.auth

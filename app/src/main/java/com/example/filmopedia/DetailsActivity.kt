@@ -97,22 +97,35 @@ class DetailsActivity : AppCompatActivity() {
 
                 val data: WatchListData
 
+                var image_url: String? = null
+                var movie_title: String? = null
+                var imdb: String? = null
+                var release: Int?= null
+
+
                 if (url != null){
-                    data = WatchListData(
-                        id.toString(),
-                        title.toString(),
-                        url.toString(),
-                        year.hashCode()
-                    )
+                    image_url = url.toString()
                 }
-                else{
-                    data = WatchListData(
-                        id.toString(),
-                        title.toString(),
-                        null,
-                        year.hashCode()
-                    )
+
+                if (movie_title != null){
+                    movie_title = title.toString()
                 }
+
+                if (imdb != null){
+                    imdb = id.toString()
+                }
+
+                if (release != null){
+                    release = year.hashCode()
+                }
+
+
+                data = WatchListData(
+                    imdb,
+                    movie_title,
+                    image_url,
+                    release
+                )
 
                 dbRef = FirebaseDatabase.getInstance().getReference(email)
 

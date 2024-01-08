@@ -88,20 +88,51 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
         holder.bookMark.isChecked = true
 
         holder.bookMark.setOnCheckedChangeListener { checkBox, isChecked ->
-            val id = WatchListData(item.imdbID, item.title, item.url)
+
+            val data: WatchListData
+
+            var image_url: String? = null
+            var movie_title: String? = null
+            var imdb: String? = null
+            var release: Int?= null
+
+
+            if (item.url != null){
+                image_url = item.url.toString()
+            }
+
+            if (item.title != null){
+                movie_title = item.title.toString()
+            }
+
+            if (item.imdbID != null){
+                imdb = item.imdbID.toString()
+            }
+
+            if (item.year != null){
+                release = item.year.hashCode()
+            }
+
+
+            data = WatchListData(
+                imdb,
+                movie_title,
+                image_url,
+                release
+            )
+
 
             auth = Firebase.auth
 
             var email = auth.currentUser?.email.toString()
 
 
+//            Toast.makeText(context, "$email", Toast.LENGTH_SHORT).show()
             email = email.replace(".", "")
             email = email.replace("[", "")
             email = email.replace("]", "")
             email = email.replace("#", "")
             email = email.replace("$", "")
-
-
 
 
 
@@ -114,7 +145,7 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
             if (isChecked) {
                 Toast.makeText(context, "Added to WatchList", Toast.LENGTH_SHORT)
                     .show()
-                myRef.child(item.imdbID.toString()).setValue(id)
+                myRef.child(item.imdbID.toString()).setValue(data)
 
             } else {
                 Toast.makeText(context, "Removed from WatchList", Toast.LENGTH_SHORT)
