@@ -1,27 +1,18 @@
 package com.example.filmopedia
 
-import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import com.example.filmopedia.data.MovieResponse
-import com.example.filmopedia.data.MoviesData
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.SearchView.OnQueryTextListener
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.filmopedia.data.WatchListData
-import com.example.filmopedia.databinding.FragmentHomeBinding
 import com.example.filmopedia.databinding.FragmentSearchBinding
 import com.example.filmopedia.model.MyAdapter
-import com.example.filmopedia.model.WatchlistAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -57,53 +48,6 @@ open class Search_Fragment : Fragment() {
         binding.searchBtn.clearFocus()
         binding.progressBarSearch.visibility = View.GONE
 
-
-
-//        var sortOption: String? = null
-//
-//        val sort = resources.getStringArray(R.array.Sort)
-//
-//        if (binding.btnSort != null) {
-//            val adapter = ArrayAdapter(
-//                requireContext(),
-//                android.R.layout.simple_list_item_1, sort
-//            )
-//            binding.btnSort.adapter = adapter
-//        }
-//
-//        binding.btnSort.onItemSelectedListener = object :
-//            AdapterView.OnItemSelectedListener {
-//
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                id: Long
-//            ) {
-//
-////                Log.i("hsh" , sort[position].toString())
-//
-//                if (sort[position].toString() == "Latest First"){
-//                    sortOption = "year.decr"
-//                }
-//
-//                else if (sort[position].toString() == "Old First"){
-//                    sortOption = "year.incr"
-//                }
-//
-//                else {
-//                    sortOption = null
-//                }
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//                TODO("Not yet implemented")
-//
-//
-//            }
-//
-//        }
 
         var page = 1
         binding.page.setText(page.toString())
@@ -176,7 +120,7 @@ open class Search_Fragment : Fragment() {
                                 binding.progressBarSearch.visibility = View.VISIBLE
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page)
+                                getRecycler(newText!!, page)
                             }
 
                         }
@@ -186,7 +130,7 @@ open class Search_Fragment : Fragment() {
 
                                 page++
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page)
+                                getRecycler(newText!!, page)
                             }
                         }
 
@@ -197,7 +141,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page)
+                                getRecycler(newText!!, page)
                             }
                         }
                         binding.prevBtn.setOnClickListener() {
@@ -206,7 +150,7 @@ open class Search_Fragment : Fragment() {
 
                                 page--
                                 binding.page.text = page.toString()
-                                getRecycler(newText, page)
+                                getRecycler(newText!!, page)
                             }
                         }
                     }
@@ -242,76 +186,77 @@ open class Search_Fragment : Fragment() {
                 response: Response<MovieResponse?>
             ) {
                 var responsebody = response.body()
-                val movieList = responsebody?.results!!
+
+                if (responsebody?.results != null ){
+
+                    val movieList = responsebody?.results!!
 
 
+                    auth = Firebase.auth
+                    var email = auth.currentUser?.email.toString()
 
+                    email = email.replace(".", "")
+                    email = email.replace("[", "")
+                    email = email.replace("]", "")
+                    email = email.replace("#", "")
 
-                auth = Firebase.auth
-                var email = auth.currentUser?.email.toString()
+                    val watchlist = arrayListOf<WatchListData?>()
 
-                email = email.replace(".", "")
-                email = email.replace("[", "")
-                email = email.replace("]", "")
-                email = email.replace("#", "")
+                    dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-                val watchlist = arrayListOf<WatchListData>()
+                    dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
 
-                dbRef = FirebaseDatabase.getInstance().getReference(email)
+                            watchlist?.clear()
 
-                dbRef.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-
-                        watchlist.clear()
-
-                        if (snapshot.exists()) {
-                            for (i in snapshot.children) {
-                                val data = i.getValue(WatchListData::class.java)
-                                watchlist.add(data!!)
-                            }
+                            if (snapshot.exists()) {
+                                for (i in snapshot.children) {
+                                    val data = i.getValue(WatchListData::class.java)
+                                    watchlist?.add(data!!)
+                                }
 
 //                            Log.i("TAGY" , watchlist[0].imdbID.toString())
 
 
-                            binding.progressBarSearch.visibility = View.GONE
-                            binding.noresult.setText("")
+                                binding.progressBarSearch.visibility = View.GONE
+                                binding.noresult.setText("")
 
 
-                            adapter = MyAdapter(context!!, movieList, watchlist)
-                            binding.rvSearchContainer.adapter = adapter
+                                adapter = MyAdapter(context!!, movieList, watchlist)
+                                binding.rvSearchContainer.adapter = adapter
 
-                            if (adapter.itemCount == 0) {
-                                binding.noresult.setText("No Movies Found")
+                                if (adapter.itemCount == 0) {
+                                    binding.noresult.setText("No Movies Found")
+                                }
+
+                                binding.rvSearchContainer.layoutManager =
+                                    GridLayoutManager(context!!, 2)
+
+
+                            } else {
+
+
+                                binding.progressBarSearch.visibility = View.GONE
+                                binding.noresult.setText("")
+
+
+                                adapter = MyAdapter(context!!, movieList, watchlist)
+                                binding.rvSearchContainer.adapter = adapter
+
+                                if (adapter.itemCount == 0) {
+                                    binding.noresult.setText("No Movies Found")
+                                }
+
+                                binding.rvSearchContainer.layoutManager =
+                                    GridLayoutManager(context!!, 2)
                             }
-
-                            binding.rvSearchContainer.layoutManager =
-                                GridLayoutManager(context!!, 2)
-
-
-                        } else {
-
-
-                            binding.progressBarSearch.visibility = View.GONE
-                            binding.noresult.setText("")
-
-
-                            adapter = MyAdapter(context!!, movieList, watchlist)
-                            binding.rvSearchContainer.adapter = adapter
-
-                            if (adapter.itemCount == 0) {
-                                binding.noresult.setText("No Movies Found")
-                            }
-
-                            binding.rvSearchContainer.layoutManager =
-                                GridLayoutManager(context!!, 2)
                         }
-                    }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
-                })
-
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+                }
 
             }
 

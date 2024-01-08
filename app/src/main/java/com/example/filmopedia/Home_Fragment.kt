@@ -10,19 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.filmopedia.data.MovieResponse
 import com.example.filmopedia.data.WatchListData
 import com.example.filmopedia.databinding.FragmentHomeBinding
 import com.example.filmopedia.model.MyAdapter
-import com.example.filmopedia.model.WatchlistAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -257,19 +252,19 @@ class Home_Fragment : Fragment() {
                 email = email.replace("]", "")
                 email = email.replace("#", "")
 
-                val watchlist = arrayListOf<WatchListData>()
+                val watchlist = arrayListOf<WatchListData?>()
 
                 dbRef = FirebaseDatabase.getInstance().getReference(email)
 
                 dbRef.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
 
-                        watchlist.clear()
+                        watchlist?.clear()
 
                         if (snapshot.exists()) {
                             for (i in snapshot.children) {
                                 val data = i.getValue(WatchListData::class.java)
-                                watchlist.add(data!!)
+                                watchlist?.add(data!!)
                             }
 
 //                            Log.i("TAGY" , watchlist[0].imdbID.toString())

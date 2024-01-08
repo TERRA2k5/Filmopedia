@@ -109,4 +109,6 @@ dependencies {
 
     // alternatively - without Android dependencies for tests
     testImplementation("androidx.paging:paging-common:$paging_version")
+
+    implementation("com.google.android.material:material:1.2.1")
 }

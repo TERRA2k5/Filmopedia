@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,8 +18,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="60dp"
-                android:text=""
                 android:gravity="center"
+                android:text=""
                 android:textColor="@color/red"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/email_in"
@@ -50,12 +50,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.855" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_in"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="140dp"
-                android:background="@drawable/etborder"
                 android:hint="Enter your email address"
                 android:inputType="textEmailAddress"
                 android:paddingStart="5dp"
@@ -65,26 +64,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-            <EditText
-                android:id="@+id/password_in"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/pass_box"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="60dp"
-                android:background="@drawable/etborder"
-                android:hint="Enter your password"
-                android:inputType="textPassword"
-                android:paddingStart="5dp"
-                android:textColor="@color/white"
+                android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email_in" />
+                app:layout_constraintTop_toBottomOf="@+id/email_in"
+                app:passwordToggleEnabled="true" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Enter your password"
+                    android:inputType="textPassword"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Button
                 android:id="@+id/btnSignIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="84dp"
                 android:background="@color/white"
                 android:backgroundTint="@color/white"
                 android:shadowColor="@color/white"
@@ -93,7 +99,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/password_in" />
+                app:layout_constraintTop_toBottomOf="@+id/pass_box" />
 
             <TextView
                 android:id="@+id/tvSignUp"
@@ -113,11 +119,11 @@
                 android:id="@+id/forget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="true"
                 android:text="Forget Password ?"
                 android:textColor="@color/white"
-                android:clickable="true"
-                app:layout_constraintStart_toStartOf="@+id/password_in"
-                app:layout_constraintTop_toBottomOf="@+id/password_in" />
+                app:layout_constraintStart_toStartOf="@+id/pass_box"
+                app:layout_constraintTop_toBottomOf="@+id/pass_box" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,6 @@
 package com.example.filmopedia.model
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +16,7 @@ import com.example.filmopedia.data.WatchListData
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.database
-import com.google.firebase.database.values
 import java.lang.StringBuilder
 import kotlin.math.log
 
@@ -29,7 +24,7 @@ import kotlin.math.log
 class MyAdapter(
     var context: Context,
     var movieList: List<MoviesData>,
-    var watchlist: ArrayList<WatchListData>
+    var watchlist: ArrayList<WatchListData?>
 ) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
@@ -86,7 +81,7 @@ class MyAdapter(
         /** checking if alreadv added **/
 
         while (i < watchlist.count()){
-            if (watchlist[i].imdbID.toString() == item.id){
+            if (watchlist[i]?.imdbID.toString() == item.id){
                 holder.BookMark.isChecked = true
 //                Toast.makeText(context, "${item.titleText.text}", Toast.LENGTH_SHORT).show()
             }
@@ -97,13 +92,28 @@ class MyAdapter(
 
         /******************************/
 
+
         holder.BookMark.setOnCheckedChangeListener { checkBox, isChecked ->
-            val data = WatchListData(
-                item.id,
-                item.titleText.text,
-                item.primaryImage.url,
-                item.releaseYear.year
-            )
+
+            val data: WatchListData
+
+            if (item.primaryImage != null){
+                data = WatchListData(
+                    item.id,
+                    item.titleText.text,
+                    item.primaryImage.url,
+                    item.releaseYear.year
+                )
+            }
+            else{
+                data = WatchListData(
+                    item.id,
+                    item.titleText.text,
+                    null,
+                    item.releaseYear.year
+                )
+            }
+
 
             auth = Firebase.auth
 
