@@ -1,5 +1,6 @@
 package com.example.filmopedia
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -72,6 +73,30 @@ class WatchList_Fragment : Fragment() {
                     binding.rvWatchList?.adapter = adapter
 
                     binding.rvWatchList?.layoutManager = GridLayoutManager(context , 2)
+
+                    adapter.setOnClickListener(object: WatchlistAdapter.onClickListener{
+                        override fun onClick(position: Int) {
+
+                            val item = watchlist[position]
+
+                            var i = Intent(context , DetailsActivity::class.java)
+
+                            if (item.title != null){
+                                i.putExtra("title" , item.title.toString())
+                            }
+
+                            if (item.url != null){
+                                i.putExtra("url" , item.url.toString())
+                            }
+                            if (item.year != null){
+                                i.putExtra("year" , item.year)
+                            }
+                            if (item.imdbID != null){
+                                i.putExtra("id" , item.imdbID.toString())
+                            }
+                            startActivity(i)
+                        }
+                    })
 
                 }
             }

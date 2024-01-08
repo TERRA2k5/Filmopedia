@@ -1,5 +1,6 @@
 package com.example.filmopedia
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -250,6 +251,30 @@ open class Search_Fragment : Fragment() {
                                 binding.rvSearchContainer.layoutManager =
                                     GridLayoutManager(context!!, 2)
                             }
+
+                            adapter.setOnClickListener(object: MyAdapter.onClickListener{
+                                override fun onClick(position: Int) {
+
+                                    val item = movieList[position]
+
+                                    var i = Intent(context , DetailsActivity::class.java)
+
+                                    if (item.titleText != null){
+                                        i.putExtra("title" , item.titleText.text.toString())
+                                    }
+
+                                    if (item.primaryImage != null){
+                                        i.putExtra("url" , item.primaryImage.url.toString())
+                                    }
+                                    if (item.releaseYear != null){
+                                        i.putExtra("year" , item.releaseYear.year)
+                                    }
+                                    if (item.id != null){
+                                        i.putExtra("id" , item.id.toString())
+                                    }
+                                    startActivity(i)
+                                }
+                            })
                         }
 
                         override fun onCancelled(error: DatabaseError) {

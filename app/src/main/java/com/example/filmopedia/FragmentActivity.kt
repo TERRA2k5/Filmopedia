@@ -27,11 +27,11 @@ class FragmentActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        // Close the app when the back button is pressed
-        finish()
-    }
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//        // Close the app when the back button is pressed
+//        finish()
+//    }
 
 
 

@@ -17,7 +17,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
-import java.lang.StringBuilder
 import kotlin.math.log
 
 
@@ -28,12 +27,23 @@ class MyAdapter(
 ) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
+    private lateinit var mListerner: onClickListener
+
+    interface onClickListener{
+        fun onClick(position: Int)
+    }
+
+    fun setOnClickListener(listener: onClickListener){
+
+        mListerner = listener
+
+    }
 
     private lateinit var auth: FirebaseAuth
     var i: Int = 0
 
 
-    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MyViewHolder(itemView: View , listener: onClickListener) : RecyclerView.ViewHolder(itemView) {
 
         val imPoster: ImageView
         val tvTitle: TextView
@@ -46,6 +56,11 @@ class MyAdapter(
             BookMark = itemView.findViewById(R.id.Bookmark)
             tvYear = itemView.findViewById(R.id.tvYear)
             tvTitle = itemView.findViewById(R.id.tvTitle)
+
+            itemView.setOnClickListener(){
+
+                listener.onClick(adapterPosition)
+            }
         }
     }
 
@@ -54,7 +69,7 @@ class MyAdapter(
         val v: View =
             LayoutInflater.from(context).inflate(R.layout.recycler_viewholder, parent, false)
 
-        return MyViewHolder(v)
+        return MyViewHolder(v , mListerner)
     }
 
     override fun getItemCount(): Int {

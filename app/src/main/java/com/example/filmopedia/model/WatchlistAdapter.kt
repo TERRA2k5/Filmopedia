@@ -23,9 +23,21 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
 
     private lateinit var auth: FirebaseAuth
 
+    private lateinit var mListerner: onClickListener
+
+    interface onClickListener{
+        fun onClick(position: Int)
+    }
+
+    fun setOnClickListener(listener: onClickListener){
+
+        mListerner = listener
+
+    }
 
 
-    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    inner class MyViewHolder(itemView: View , listener: onClickListener) : RecyclerView.ViewHolder(itemView) {
 
         val imPoster: ImageView
         val tvTitle: TextView
@@ -39,6 +51,11 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
             tvYear = itemView.findViewById(R.id.tvYear)
 
             tvTitle = itemView.findViewById(R.id.tvTitle)
+
+            itemView.setOnClickListener(){
+
+                listener.onClick(adapterPosition)
+            }
         }
     }
 
@@ -47,7 +64,7 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
         val v: View =
             LayoutInflater.from(context).inflate(R.layout.recycler_viewholder, parent, false)
 
-        return MyViewHolder(v)
+        return MyViewHolder(v , mListerner)
     }
 
 
