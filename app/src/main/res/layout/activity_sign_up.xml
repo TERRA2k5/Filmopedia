@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
+        android:theme="@style/Back"
         tools:context=".SignUpActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +15,7 @@
 
             <TextView
                 android:id="@+id/tvError"
+                android:background="@android:color/transparent"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -31,6 +32,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:layout_marginBottom="53dp"
                 android:text="Welcome !!"
                 android:textColor="@color/mint"
@@ -45,6 +47,8 @@
                 android:id="@+id/imageView"
                 android:layout_width="80sp"
                 android:layout_height="80sp"
+                android:background="@android:color/transparent"
+
                 android:layout_marginStart="76dp"
                 android:layout_marginTop="56dp"
                 android:layout_marginEnd="12dp"
@@ -57,6 +61,8 @@
 
             <TextView
                 android:id="@+id/textView"
+                android:background="@android:color/transparent"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="88dp"
@@ -72,6 +78,7 @@
             <EditText
                 android:id="@+id/username"
                 android:layout_width="300dp"
+                android:background="@android:color/transparent"
                 android:layout_height="50dp"
                 android:layout_marginTop="323dp"
                 android:layout_marginBottom="284dp"
@@ -88,6 +95,7 @@
             <EditText
                 android:id="@+id/email_up"
                 android:layout_width="300dp"
+                android:background="@android:color/transparent"
                 android:layout_height="50dp"
                 android:layout_marginTop="32dp"
                 android:hint="Enter your email address"
@@ -105,16 +113,18 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="55dp"
                 android:layout_marginTop="32dp"
+                android:background="@android:color/transparent"
                 android:layout_marginEnd="55dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/email_up"
                 app:passwordToggleEnabled="true">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/password_up"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:theme="@style/search_back"
                     android:hint="Enter your password"
                     android:inputType="textPassword" />
 
@@ -140,6 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:background="@android:color/transparent"
                 android:layout_marginBottom="38dp"
                 android:clickable="true"
                 android:gravity="center"

@@ -6,11 +6,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
         tools:context=".FragmentActivity">
 
         <FrameLayout
             android:id="@+id/container"
+            android:theme="@style/Back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/bottomNav" >
@@ -22,6 +22,7 @@
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:theme="@style/nav_back"
             android:layout_alignParentBottom="true"
             android:scrollIndicators="left"
             app:layout_constraintBottom_toBottomOf="parent"

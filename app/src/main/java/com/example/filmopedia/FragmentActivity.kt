@@ -34,6 +34,7 @@ class FragmentActivity : AppCompatActivity() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
 
+            finish()
             return
         }
 
@@ -41,9 +42,10 @@ class FragmentActivity : AppCompatActivity() {
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
         ReplaceFrag(Home_Fragment())
 
-        Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+            doubleBackToExitPressedOnce = false
+        }, 2000)
     }
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,10 +88,8 @@ class FragmentActivity : AppCompatActivity() {
     private fun ReplaceFrag(fragment: Fragment) {
 
         val fragTrans = supportFragmentManager.beginTransaction()
-//        fragTrans.disallowAddToBackStack()
-//        if (fragment != Home_Fragment()){
-            fragTrans.addToBackStack(null)
-//        }
+
+        fragTrans.addToBackStack(null)
         fragTrans.replace(R.id.container, fragment)
         fragTrans.commit()
     }
@@ -97,7 +97,7 @@ class FragmentActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
 
-        menuInflater.inflate(R.menu.top_menu , menu)
+        menuInflater.inflate(R.menu.top_menu, menu)
 
         return super.onCreateOptionsMenu(menu)
 
@@ -106,14 +106,14 @@ class FragmentActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (item.itemId == R.id.logout ) {
+        if (item.itemId == R.id.logout) {
 
             auth = Firebase.auth
 
             auth.signOut()
 
 
-            val i: Intent = Intent(this , MainActivity::class.java)
+            val i: Intent = Intent(this, MainActivity::class.java)
             finish()
             startActivity(i)
         }

@@ -62,7 +62,7 @@ class Home_Fragment : Fragment() {
         if (binding.btnSort != null) {
             val adapter = ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_list_item_1, sort
+                android.R.layout.simple_list_item_activated_1, sort
             )
             binding.btnSort.adapter = adapter
         }
@@ -239,101 +239,105 @@ class Home_Fragment : Fragment() {
                 call: Call<MovieResponse?>,
                 response: Response<MovieResponse?>
             ) {
-                var responsebody = response.body()
-                val movieList = responsebody?.results!!
+                var responsebody = response?.body()
+
+                if (responsebody?.results != null) {
+                    val movieList = responsebody?.results!!
 
 
-                /*****************************************/
+                    /*****************************************/
 
 
-                auth = Firebase.auth
-                var email = auth.currentUser?.email.toString()
+                    auth = Firebase.auth
+                    var email = auth.currentUser?.email.toString()
 
-                email = email.replace(".", "")
-                email = email.replace("[", "")
-                email = email.replace("]", "")
-                email = email.replace("#", "")
+                    email = email.replace(".", "")
+                    email = email.replace("[", "")
+                    email = email.replace("]", "")
+                    email = email.replace("#", "")
 
-                val watchlist = arrayListOf<WatchListData?>()
+                    val watchlist = arrayListOf<WatchListData?>()
 
-                dbRef = FirebaseDatabase.getInstance().getReference(email)
+                    dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-                dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
+                    dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
 
-                        watchlist?.clear()
+                            watchlist?.clear()
 
-                        if (snapshot.exists()) {
-                            for (i in snapshot.children) {
-                                val data = i.getValue(WatchListData::class.java)
-                                watchlist?.add(data!!)
-                            }
+                            if (snapshot.exists()) {
+                                for (i in snapshot.children) {
+                                    val data = i.getValue(WatchListData::class.java)
+                                    watchlist?.add(data!!)
+                                }
 
 //                            Log.i("TAGY" , watchlist[0].imdbID.toString())
 //                            Toast.makeText(context, "${watchlist.count()}", Toast.LENGTH_SHORT).show()
 
 
-                            binding.progressBar2.visibility = View.GONE
+                                binding.progressBar2.visibility = View.GONE
 
-                            adapter = MyAdapter(context!!, movieList!!, watchlist!!)
-                            binding.rvHomeContainer.adapter = adapter
+                                adapter = MyAdapter(context!!, movieList!!, watchlist!!)
+                                binding.rvHomeContainer.adapter = adapter
 
-                            binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
-
-
-
-                        }
-                        else {
-
-                            // when watchlist is null
+                                binding.rvHomeContainer.layoutManager =
+                                    GridLayoutManager(context!!, 2)
 
 
-                            binding.progressBar2.visibility = View.GONE
+                            } else {
 
-                            adapter = MyAdapter(context!!, movieList!!, watchlist!!)
-                            binding.rvHomeContainer.adapter = adapter
+                                // when watchlist is null
 
-                            binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
-                        }
 
-                        adapter.setOnClickListener(object: MyAdapter.onClickListener{
-                            override fun onClick(position: Int) {
+                                binding.progressBar2.visibility = View.GONE
 
-                                val item = movieList[position]
+                                adapter = MyAdapter(context!!, movieList!!, watchlist!!)
+                                binding.rvHomeContainer.adapter = adapter
 
-                                var i = Intent(context , DetailsActivity::class.java)
-
-                                if (item.titleText != null){
-                                    i.putExtra("title" , item.titleText.text.toString())
-                                }
-
-                                if (item.primaryImage != null){
-                                    i.putExtra("url" , item.primaryImage.url.toString())
-                                }
-                                if (item.releaseYear != null){
-                                    i.putExtra("year" , item.releaseYear.year)
-                                }
-                                if (item.id != null){
-                                    i.putExtra("id" , item.id.toString())
-                                }
-                                startActivity(i)
+                                binding.rvHomeContainer.layoutManager =
+                                    GridLayoutManager(context!!, 2)
                             }
-                        })
-                    }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
-                })
+                            adapter.setOnClickListener(object : MyAdapter.onClickListener {
+                                override fun onClick(position: Int) {
 
-                /*****************************************/
+                                    val item = movieList[position]
+
+                                    var i = Intent(context, DetailsActivity::class.java)
+
+                                    if (item.titleText != null) {
+                                        i.putExtra("title", item.titleText.text.toString())
+                                    }
+
+                                    if (item.primaryImage != null) {
+                                        i.putExtra("url", item.primaryImage.url.toString())
+                                    }
+                                    if (item.releaseYear != null) {
+                                        i.putExtra("year", item.releaseYear.year)
+                                    }
+                                    if (item.id != null) {
+                                        i.putExtra("id", item.id.toString())
+                                    }
+                                    startActivity(i)
+                                }
+                            })
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+
+                    /*****************************************/
 
 
+                }
             }
 
             override fun onFailure(call: Call<MovieResponse?>, t: Throwable) {
                 Log.i("RetroFail", "Failure")
             }
+
         })
     }
 

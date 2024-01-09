@@ -1,13 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Filmopedia" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="Base.Theme.Filmopedia" parent="Theme.AppCompat.Light">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/offWhite</item>
+         <item name="colorPrimary">#ffdab9</item>
         <item name="colorSecondary">@color/grey_1</item>
 
     </style>
 
+    <style name="Back" >
+        <item name="android:background">@drawable/background_light</item>
+    </style>
+
+    <style name="nav_back" >
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="search_back" >
+        <item name="android:background">#ffdab9</item>
+    </style>
+
     <style name="Theme.Filmopedia" parent="Base.Theme.Filmopedia" />
-    
+
     
 </resources>
