@@ -58,7 +58,7 @@ class WatchList_Fragment : Fragment() {
 
         dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-        dbRef.addValueEventListener(object : ValueEventListener{
+        dbRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 watchlist.clear()
 

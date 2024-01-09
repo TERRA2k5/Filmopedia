@@ -3,6 +3,8 @@ package com.example.filmopedia
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -27,6 +29,23 @@ class FragmentActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
 
+    private var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+        ReplaceFrag(Home_Fragment())
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -36,6 +55,7 @@ class FragmentActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         ReplaceFrag(Home_Fragment())
+//        finish()
 
 
         binding.bottomNav.setOnItemSelectedListener {
@@ -67,7 +87,9 @@ class FragmentActivity : AppCompatActivity() {
 
         val fragTrans = supportFragmentManager.beginTransaction()
 //        fragTrans.disallowAddToBackStack()
-        fragTrans.addToBackStack(null)
+//        if (fragment != Home_Fragment()){
+            fragTrans.addToBackStack(null)
+//        }
         fragTrans.replace(R.id.container, fragment)
         fragTrans.commit()
     }

@@ -174,8 +174,5 @@ class MyAdapter(
                 myRef.child(item.id).removeValue()
             }
         }
-//        Toast.makeText(context, "${watchlist.count()}", Toast.LENGTH_SHORT).show()
-
-
     }
 }

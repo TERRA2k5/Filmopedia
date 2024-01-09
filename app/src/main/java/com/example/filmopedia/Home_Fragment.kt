@@ -5,13 +5,13 @@ package com.example.filmopedia
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.filmopedia.data.MovieResponse
 import com.example.filmopedia.data.WatchListData
@@ -258,7 +258,7 @@ class Home_Fragment : Fragment() {
 
                 dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-                dbRef.addValueEventListener(object : ValueEventListener {
+                dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
 
                         watchlist?.clear()
@@ -275,7 +275,7 @@ class Home_Fragment : Fragment() {
 
                             binding.progressBar2.visibility = View.GONE
 
-                            adapter = MyAdapter(context!!, movieList, watchlist)
+                            adapter = MyAdapter(context!!, movieList!!, watchlist!!)
                             binding.rvHomeContainer.adapter = adapter
 
                             binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
@@ -290,7 +290,7 @@ class Home_Fragment : Fragment() {
 
                             binding.progressBar2.visibility = View.GONE
 
-                            adapter = MyAdapter(context!!, movieList, watchlist)
+                            adapter = MyAdapter(context!!, movieList!!, watchlist!!)
                             binding.rvHomeContainer.adapter = adapter
 
                             binding.rvHomeContainer.layoutManager = GridLayoutManager(context!!, 2)
