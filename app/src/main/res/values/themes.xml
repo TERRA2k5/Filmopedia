@@ -2,13 +2,14 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Filmopedia" parent="Theme.AppCompat.Light">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">#ffdab9</item>
+         <item name="colorPrimary">@color/pink</item>
         <item name="colorSecondary">@color/grey_1</item>
 
     </style>
 
     <style name="Back" >
         <item name="android:background">@drawable/background_light</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="nav_back" >
@@ -16,7 +17,7 @@
     </style>
 
     <style name="search_back" >
-        <item name="android:background">#ffdab9</item>
+        <item name="android:background">@color/pink</item>
     </style>
 
     <style name="Theme.Filmopedia" parent="Base.Theme.Filmopedia" />

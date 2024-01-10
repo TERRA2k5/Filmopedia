@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager.BackStackEntry
 import com.example.filmopedia.databinding.ActivitySignUpBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -36,6 +37,7 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.tvSignIn.setOnClickListener(){
             val i = Intent(this, MainActivity::class.java)
+            finish()
             startActivity(i)
         }
 

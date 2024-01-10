@@ -16,10 +16,12 @@
 
     <style name="search_back" >
         <item name="android:background">@color/blue_2</item>
+        <item name="android:textColor">@color/offWhite</item>
     </style>
 
     <style name="adapter_back" >
         <item name="android:background">@color/blue_3</item>
+        <item name="android:textColor">@color/offWhite</item>
     </style>
 
     <style name="nav_back" >
