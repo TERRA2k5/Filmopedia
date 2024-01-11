@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -81,14 +82,19 @@ class SignUpActivity : AppCompatActivity() {
         val password = binding.passwordUp.text.toString()
 
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful) {
 
-                    auth.signOut()
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("TAGY", "createUserWithEmail:success")
-                    val user = auth.currentUser
+//                    val user = auth.currentUser
 //                    updateUI(user)
+
+                    var user = binding.emailUp.text.toString()
+//                    updateUI(user)
+                    user = user.replace(".", "")
+                    val dbRef = FirebaseDatabase.getInstance().getReference("Profiles")
+                    dbRef.child(user).setValue(binding.username.text.toString())
                     GoHome()
                 }
 
@@ -98,7 +104,7 @@ class SignUpActivity : AppCompatActivity() {
                 }
                 else {
                     // If sign in fails, display a message to the user.
-                    Log.w("TAGY", "createUserWithEmail:failure", task.exception)
+                    Log.w("TAGY", "createUserWithEmail:failure", it.exception)
                     binding.tvError.setText("Something went wrong. Check you Internet Connection")
                 }
             }

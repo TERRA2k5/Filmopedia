@@ -87,6 +87,7 @@ class DetailsActivity : AppCompatActivity() {
 
                 auth = Firebase.auth
                 var email = auth.currentUser?.email.toString()
+//                Toast.makeText(this@DetailsActivity, email.toString(), Toast.LENGTH_SHORT).show()
 
                 email = email.replace(".", "")
                 email = email.replace("[", "")
@@ -107,15 +108,15 @@ class DetailsActivity : AppCompatActivity() {
                     image_url = url.toString()
                 }
 
-                if (movie_title != null){
+                if (title.toString() != null){
                     movie_title = title.toString()
                 }
 
-                if (imdb != null){
+                if (id.toString() != null){
                     imdb = id.toString()
                 }
 
-                if (release != null){
+                if (year.hashCode() != null){
                     release = year.hashCode()
                 }
 
@@ -129,7 +130,7 @@ class DetailsActivity : AppCompatActivity() {
 
                 dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-                dbRef.addValueEventListener(object : ValueEventListener {
+                dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
 
                         watchlist?.clear()
@@ -162,7 +163,10 @@ class DetailsActivity : AppCompatActivity() {
                                     dbRef.child(id.toString()).removeValue()
                                 }
                             }
+
+
                         }
+
                     }
 
                     override fun onCancelled(error: DatabaseError) {

@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("TAGY", "signInWithEmail:success")
                     val user = auth.currentUser
+//                    Toast.makeText(this, "${user?.email.toString()}", Toast.LENGTH_SHORT).show()
                     GoHome()
 
                     finish()
