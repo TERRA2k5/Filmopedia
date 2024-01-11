@@ -90,11 +90,8 @@ class SignUpActivity : AppCompatActivity() {
 //                    val user = auth.currentUser
 //                    updateUI(user)
 
-                    var user = binding.emailUp.text.toString()
-//                    updateUI(user)
-                    user = user.replace(".", "")
-                    val dbRef = FirebaseDatabase.getInstance().getReference("Profiles")
-                    dbRef.child(user).setValue(binding.username.text.toString())
+                    val dbRef = FirebaseDatabase.getInstance().getReference(auth.currentUser?.uid.toString())
+                    dbRef.child("name").setValue(binding.username.text.toString())
                     GoHome()
                 }
 
