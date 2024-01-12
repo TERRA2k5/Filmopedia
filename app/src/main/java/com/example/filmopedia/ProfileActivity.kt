@@ -81,6 +81,17 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "Profile Updated.", Toast.LENGTH_SHORT).show()
         }
 
+//        binding.goWatchlist.setOnClickListener(){
+//            var i = Intent(this , FragmentActivity::class.java)
+//            finish()
+//            startActivity(i)
+//
+//            val fragTrans = supportFragmentManager.beginTransaction()
+////            fragTrans.addToBackStack(null)
+//            fragTrans.replace(R.id.container, WatchList_Fragment())
+//            fragTrans.commit()
+//        }
+
 
 
         binding.profileCard.setOnClickListener() {

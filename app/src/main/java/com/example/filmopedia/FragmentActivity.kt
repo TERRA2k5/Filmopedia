@@ -122,6 +122,7 @@ class FragmentActivity : AppCompatActivity() {
         else if (item.itemId == R.id.profile){
 
             val i: Intent = Intent(this, ProfileActivity::class.java)
+//            finish()
             startActivity(i)
         }
         return super.onOptionsItemSelected(item)

@@ -84,6 +84,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etName" />
 
+<!--        <Button-->
+<!--            android:id="@+id/goWatchlist"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginTop="35dp"-->
+<!--            android:background="@drawable/btn_border"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:text="WatchList"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="25sp"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/change_name"-->
+<!--            tools:layout_editor_absoluteX="16dp" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

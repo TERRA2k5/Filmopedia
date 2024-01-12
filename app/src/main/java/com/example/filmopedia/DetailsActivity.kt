@@ -31,6 +31,12 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        finish()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -149,22 +155,6 @@ class DetailsActivity : AppCompatActivity() {
                                 }
                                 i++
                             }
-
-                            binding.checkWatchlist.setOnCheckedChangeListener{checkbox , isChecked ->
-
-                                if (isChecked) {
-                                    Toast.makeText(this@DetailsActivity, "Added to WatchList", Toast.LENGTH_SHORT)
-                                        .show()
-                                    dbRef.child(id.toString()).setValue(data)
-
-                                } else {
-                                    Toast.makeText(this@DetailsActivity, "Removed from WatchList", Toast.LENGTH_SHORT)
-                                        .show()
-                                    dbRef.child(id.toString()).removeValue()
-                                }
-                            }
-
-
                         }
 
                     }
@@ -173,6 +163,20 @@ class DetailsActivity : AppCompatActivity() {
                         TODO("Not yet implemented")
                     }
                 })
+
+                binding.checkWatchlist.setOnCheckedChangeListener{checkbox , isChecked ->
+
+                    if (isChecked) {
+//                        Toast.makeText(this@DetailsActivity, "Added to WatchList", Toast.LENGTH_SHORT)
+//                            .show()
+                        dbRef.child(id.toString()).setValue(data)
+
+                    } else {
+//                        Toast.makeText(this@DetailsActivity, "Removed from WatchList", Toast.LENGTH_SHORT)
+//                            .show()
+                        dbRef.child(id.toString()).removeValue()
+                    }
+                }
             }
 
 
