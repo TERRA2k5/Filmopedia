@@ -7,6 +7,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore.Images
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -32,6 +35,12 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     lateinit var dbRef: DatabaseReference
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        finish()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,16 +50,14 @@ class ProfileActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
 
         auth = Firebase.auth
+        binding.btnDelete.visibility = View.GONE
 
-        var email = auth.currentUser?.email.toString()
-
-        email = email.replace(".", "")
-
-        val storageReference = storage.reference.child("Profiles").child(email)
+        val storageReference = storage.reference.child("Profiles").child(auth.currentUser?.uid.toString())
 
         storageReference.downloadUrl.addOnSuccessListener {task ->
 
-            Glide.with(this).load(task.toString()).into(binding.profileImg)
+            Glide.with(this@ProfileActivity).load(task.toString()).into(binding.profileImg)
+            binding.btnDelete.visibility = View.VISIBLE
         }
 
         dbRef = FirebaseDatabase.getInstance().getReference(auth.currentUser?.uid.toString())
@@ -61,7 +68,6 @@ class ProfileActivity : AppCompatActivity() {
                     for (i in snapshot.children) {
                         val data: Any? = i.getValue()
 //                        Log.i("TAGY", data.toString())
-
                         binding.etName.setText(data.toString())
 
                     }
@@ -74,6 +80,12 @@ class ProfileActivity : AppCompatActivity() {
 
         })
 
+        binding.btnDelete.setOnClickListener(){
+            storageReference.delete()
+            Toast.makeText(this, "Profile Picture Removed.", Toast.LENGTH_SHORT).show()
+            binding.profileImg.setImageResource(R.drawable.profile)
+        }
+
 
         binding.changeName.setOnClickListener(){
             val dbRef = FirebaseDatabase.getInstance().getReference(auth.currentUser?.uid.toString())
@@ -81,18 +93,17 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "Profile Updated.", Toast.LENGTH_SHORT).show()
         }
 
-//        binding.goWatchlist.setOnClickListener(){
-//            var i = Intent(this , FragmentActivity::class.java)
-//            finish()
-//            startActivity(i)
-//
-//            val fragTrans = supportFragmentManager.beginTransaction()
-////            fragTrans.addToBackStack(null)
-//            fragTrans.replace(R.id.container, WatchList_Fragment())
-//            fragTrans.commit()
-//        }
+        binding.btnLogout.setOnClickListener(){
+
+            auth = Firebase.auth
+
+            auth.signOut()
 
 
+            val i: Intent = Intent(this, MainActivity::class.java)
+            finishAffinity()
+            startActivity(i)
+        }
 
         binding.profileCard.setOnClickListener() {
 
@@ -102,11 +113,7 @@ class ProfileActivity : AppCompatActivity() {
             builder.setPositiveButton("Yes") {
 
                     dailog, which ->
-//
-//                var i = Intent()
-//                i.action = Intent.ACTION_GET_CONTENT
-//                i.type = "image/*"
-//                startActivityForResult(i, 1)
+
                 var openGallary: Intent =
                     Intent(Intent.ACTION_PICK, Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(openGallary, 1)
@@ -120,17 +127,11 @@ class ProfileActivity : AppCompatActivity() {
             val alertDialog = builder.create()
             // Show the Alert Dialog box
             alertDialog.show()
-
-
         }
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
@@ -146,19 +147,14 @@ class ProfileActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        var email = auth.currentUser?.email.toString()
-//        Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
-
-        email = email.replace(".", "")
-
-
-        val storageReference = storage.reference.child("Profiles").child(email)
+        val storageReference = storage.reference.child("Profiles").child(auth.currentUser?.uid.toString())
 
         storageReference.putFile(image).addOnCompleteListener {
             if (it.isSuccessful) {
                 storageReference.downloadUrl.addOnSuccessListener {
 
                     Toast.makeText(this, "Profile Updated.", Toast.LENGTH_SHORT).show()
+                    binding.btnDelete.visibility = View.VISIBLE
                 }
             }
         }

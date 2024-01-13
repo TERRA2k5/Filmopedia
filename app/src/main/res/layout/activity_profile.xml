@@ -9,6 +9,17 @@
         android:theme="@style/Back"
         tools:context=".ProfileActivity">
 
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="152dp"
+            android:theme="@style/adapter_back"
+            android:text="LogOut"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/change_name" />
 
         <TextView
             android:id="@+id/textView2"
@@ -49,7 +60,18 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/profile"></ImageView>
 
+
         </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:src="@drawable/baseline_delete_24"
+            app:layout_constraintEnd_toEndOf="@+id/profile_card"
+            app:layout_constraintTop_toBottomOf="@+id/profile_card" />
 
         <TextView
             android:id="@+id/textView4"
@@ -84,19 +106,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etName" />
 
-<!--        <Button-->
-<!--            android:id="@+id/goWatchlist"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginTop="35dp"-->
-<!--            android:background="@drawable/btn_border"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:paddingLeft="10dp"-->
-<!--            android:text="WatchList"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="25sp"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/change_name"-->
-<!--            tools:layout_editor_absoluteX="16dp" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/goWatchlist"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:layout_marginTop="35dp"-->
+        <!--            android:background="@drawable/btn_border"-->
+        <!--            android:gravity="center_vertical"-->
+        <!--            android:paddingLeft="10dp"-->
+        <!--            android:text="WatchList"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:textSize="25sp"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/change_name"-->
+        <!--            tools:layout_editor_absoluteX="16dp" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

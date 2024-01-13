@@ -114,8 +114,9 @@ class FragmentActivity : AppCompatActivity() {
 
 
             val i: Intent = Intent(this, MainActivity::class.java)
-            finish()
+            finishAffinity()
             startActivity(i)
+
         }
 
 

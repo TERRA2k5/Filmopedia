@@ -3,137 +3,144 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:theme="@style/Back"
         tools:context=".MainActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
+            android:background="@android:color/transparent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tvError"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="60dp"
-                android:gravity="center"
-                android:text=""
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:background="@android:color/transparent"
-                android:textColor="@color/red"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/email_in"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="84dp"
-                android:layout_marginTop="104dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/filmopedia"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvError"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/red"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/email_in"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:theme="@style/Back"
-                android:text="@string/app_name"
-                android:background="@android:color/transparent"
-                android:textSize="32sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.855" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="84dp"
+                    android:layout_marginTop="104dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/filmopedia"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_in"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="140dp"
-                android:hint="Enter your email address"
-                android:inputType="textEmailAddress"
-                android:paddingStart="5dp"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/pass_box"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="40dp"
-                android:background="@android:color/transparent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email_in"
-                app:passwordToggleEnabled="true" >
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@android:color/transparent"
+                    android:text="@string/app_name"
+                    android:textSize="32sp"
+                    android:textStyle="bold|italic"
+                    android:theme="@style/Back"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.855" />
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password_in"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Enter your password"
-                    android:inputType="textPassword"
-                    />
+                    android:id="@+id/email_in"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="140dp"
+                    android:hint="Enter your email address"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="5dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/pass_box"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/email_in"
+                    app:passwordToggleEnabled="true">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_in"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Enter your password"
+                        android:inputType="textPassword" />
 
-            <Button
-                android:id="@+id/btnSignIn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="84dp"
-                android:background="@color/white"
-                android:backgroundTint="@color/white"
-                android:shadowColor="@color/white"
-                android:text="Sign In"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pass_box" />
-
-            <TextView
-                android:id="@+id/tvSignUp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:clickable="true"
-                android:gravity="center"
-                android:text="New User?\nClick Here"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:background="@android:color/transparent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
-
-            <TextView
-                android:id="@+id/forget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:text="Forget Password ?"
-                android:background="@android:color/transparent"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="@+id/pass_box"
-                app:layout_constraintTop_toBottomOf="@+id/pass_box" />
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/btnSignIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="84dp"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:shadowColor="@color/white"
+                    android:text="Sign In"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pass_box" />
 
+                <TextView
+                    android:id="@+id/tvSignUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="36dp"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="New User?\nClick Here"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
+
+                <TextView
+                    android:id="@+id/forget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:text="Forget Password ?"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/pass_box"
+                    app:layout_constraintTop_toBottomOf="@+id/pass_box" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
     </RelativeLayout>
 </layout>
