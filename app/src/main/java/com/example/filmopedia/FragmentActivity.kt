@@ -11,16 +11,14 @@ import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.filmopedia.data.MovieResponse
-import com.example.filmopedia.data.MoviesData
+import androidx.viewpager.widget.ViewPager
 
 import com.example.filmopedia.databinding.ActivityFragmentBinding
+import com.example.filmopedia.model.ViewPagerAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.StorageReference
 
 
 class FragmentActivity : AppCompatActivity() {
@@ -28,19 +26,19 @@ class FragmentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFragmentBinding
     private lateinit var auth: FirebaseAuth
 
+    lateinit var viewPager: ViewPager
 
     private var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
 
-            finish()
+            finishAffinity()
             return
         }
 
         this.doubleBackToExitPressedOnce = true
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
-        ReplaceFrag(Home_Fragment())
 
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
             doubleBackToExitPressedOnce = false
@@ -56,43 +54,58 @@ class FragmentActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fragment)
         auth = Firebase.auth
 
-        ReplaceFrag(Home_Fragment())
-//        finish()
+//        ReplaceFrag(Home_Fragment())
 
 
-        binding.bottomNav.setOnItemSelectedListener {
+        /*****************************************/
 
-            when (it.itemId) {
+        viewPager = findViewById(R.id.container)
+        val adapter = ViewPagerAdapter(supportFragmentManager)
+        viewPager.adapter = adapter
 
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottomNav)
+
+        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
                 R.id.home -> {
-
-                    ReplaceFrag(Home_Fragment())
-
-
+                    this.viewPager.currentItem = 0
+                    return@setOnNavigationItemSelectedListener true
                 }
-
-                R.id.watchlist -> {
-                    ReplaceFrag(WatchList_Fragment())
-                }
-
                 R.id.search -> {
-                    ReplaceFrag(Search_Fragment())
+                    this.viewPager.currentItem = 1
+                    return@setOnNavigationItemSelectedListener true
                 }
+                R.id.watchlist -> {
+                    this.viewPager.currentItem = 2
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> false
             }
-            true
-
         }
 
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                bottomNavigation.menu.getItem(position).isChecked = true
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+
     }
 
-    private fun ReplaceFrag(fragment: Fragment) {
 
-        val fragTrans = supportFragmentManager.beginTransaction()
+    /*****************************************/
 
-        fragTrans.addToBackStack(null)
-        fragTrans.replace(R.id.container, fragment)
-        fragTrans.commit()
-    }
+//    private fun ReplaceFrag(fragment: Fragment) {
+//
+//        val fragTrans = supportFragmentManager.beginTransaction()
+//
+//        fragTrans.addToBackStack(null)
+//        fragTrans.replace(R.id.container, fragment)
+//        fragTrans.commit()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 

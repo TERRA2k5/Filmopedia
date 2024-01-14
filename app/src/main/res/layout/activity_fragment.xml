@@ -8,15 +8,12 @@
         android:layout_height="match_parent"
         tools:context=".FragmentActivity">
 
-        <FrameLayout
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/container"
             android:theme="@style/Back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/bottomNav" >
-
-        </FrameLayout>
-
+            android:layout_above="@+id/bottomNav" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"
