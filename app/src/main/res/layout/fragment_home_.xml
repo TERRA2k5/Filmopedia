@@ -24,13 +24,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvHomeContainer"
+                    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                        android:id="@+id/swipeRefresh"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:background="@android:color/transparent"
-                        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_height="match_parent">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvHomeContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
                     <LinearLayout
                         android:id="@+id/linearLayout"
@@ -138,10 +145,10 @@
                 android:id="@+id/btnFilter"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:theme="@style/spinner_back"
                 android:text="Filter"
                 android:textColor="@color/white"
                 android:textSize="25dp"
+                android:theme="@style/spinner_back"
                 app:layout_constraintBottom_toBottomOf="@+id/btnSort"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

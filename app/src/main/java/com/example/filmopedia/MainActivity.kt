@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnSignIn.setOnClickListener(){
 
+            binding.tvError.setText("")
+
             val email = binding.emailIn.text.toString()
             if (emailValidator(email)){
                 if (Check()){

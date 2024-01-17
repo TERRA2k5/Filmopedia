@@ -1,5 +1,7 @@
 package com.example.filmopedia
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -53,7 +55,18 @@ class DetailsActivity : AppCompatActivity() {
 
 
 
+        binding.tvDetails.setOnClickListener(){
 
+            if(id != null) {
+                var i = Intent(Intent.ACTION_VIEW)
+                i.setData(Uri.parse("https://www.imdb.com/title/" + id.toString()))
+                startActivity(i)
+            }
+            else{
+                Toast.makeText(this, "Could not fetch details.", Toast.LENGTH_SHORT).show()
+            }
+
+        }
 
 
         val retrofitbuilder = Retrofit.Builder()

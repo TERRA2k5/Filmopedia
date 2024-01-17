@@ -49,7 +49,5 @@ class ForgetPassword : AppCompatActivity() {
                     }
                 }
         }
-
-//        etEmail.text = ""
     }
 }

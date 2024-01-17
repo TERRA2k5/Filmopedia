@@ -44,10 +44,19 @@ class WatchList_Fragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_watch_list_, container, false)
 
-        watchlist = arrayListOf<WatchListData>()
+        getRecycler()
+
+        binding.swipeRefresh.setOnRefreshListener {
+            getRecycler()
+        }
+
+        return binding.root
+    }
+
+    private fun getRecycler(){
 
         auth = Firebase.auth
-
+        watchlist = arrayListOf<WatchListData>()
         var email = auth.currentUser?.email.toString()
 
         email = email.replace(".", "")
@@ -55,44 +64,48 @@ class WatchList_Fragment : Fragment() {
         email = email.replace("]", "")
         email = email.replace("#", "")
 
-
         dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-        dbRef.addListenerForSingleValueEvent(object : ValueEventListener{
+        dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 watchlist.clear()
 
-                if (snapshot.exists()){
-                    for (i in snapshot.children){
+                if (snapshot.exists()) {
+                    for (i in snapshot.children) {
                         val data = i.getValue(WatchListData::class.java)
                         watchlist.add(data!!)
 
                     }
 
+
                     adapter = WatchlistAdapter(context!!, watchlist)
                     binding.rvWatchList?.adapter = adapter
 
-                    binding.rvWatchList?.layoutManager = GridLayoutManager(context , 2)
+                    binding.rvWatchList?.layoutManager = GridLayoutManager(context, 2)
 
-                    adapter.setOnClickListener(object: WatchlistAdapter.onClickListener{
+
+                    binding.swipeRefresh.isRefreshing = false
+
+                    adapter.setOnClickListener(object :
+                        WatchlistAdapter.onClickListener {
                         override fun onClick(position: Int) {
 
                             val item = watchlist[position]
 
-                            var i = Intent(context , DetailsActivity::class.java)
+                            var i = Intent(context, DetailsActivity::class.java)
 
-                            if (item.title != null){
-                                i.putExtra("title" , item.title.toString())
+                            if (item.title != null) {
+                                i.putExtra("title", item.title.toString())
                             }
 
-                            if (item.url != null){
-                                i.putExtra("url" , item.url.toString())
+                            if (item.url != null) {
+                                i.putExtra("url", item.url.toString())
                             }
-                            if (item.year != null){
-                                i.putExtra("year" , item.year)
+                            if (item.year != null) {
+                                i.putExtra("year", item.year)
                             }
-                            if (item.imdbID != null){
-                                i.putExtra("id" , item.imdbID.toString())
+                            if (item.imdbID != null) {
+                                i.putExtra("id", item.imdbID.toString())
                             }
                             startActivity(i)
                         }
@@ -104,11 +117,6 @@ class WatchList_Fragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
-
         })
-
-
-        return binding.root
     }
-
 }

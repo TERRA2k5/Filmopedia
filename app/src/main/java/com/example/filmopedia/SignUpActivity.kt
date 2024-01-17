@@ -43,6 +43,8 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.btnSignUp.setOnClickListener() {
+
+            binding.tvError.setText("")
             val email = binding.emailUp.text.toString()
 
             if (emailValidator(email)){

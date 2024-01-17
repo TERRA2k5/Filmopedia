@@ -1,7 +1,5 @@
 package com.example.filmopedia
 
-// FRAGMENT CLASS
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -32,6 +30,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.Collections
 
 
 class Home_Fragment : Fragment() {
@@ -39,6 +38,7 @@ class Home_Fragment : Fragment() {
     private lateinit var adapter: MyAdapter
 
     //    lateinit var watchlist: ArrayList<WatchListData>
+
     lateinit var dbRef: DatabaseReference
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
@@ -109,7 +109,7 @@ class Home_Fragment : Fragment() {
 
 
                 }
-                binding.btnSort.setSelection(0)
+//                binding.btnSort.setSelection(0)
 
                 getRecycler(page, list, "year.decr", genreOption)
             }
@@ -217,12 +217,21 @@ class Home_Fragment : Fragment() {
             }
         }
 
+        /****** Refresh *********************/
+
+        binding.swipeRefresh.setOnRefreshListener {
+
+            getRecycler(page , list , sortOption , genreOption )
+
+        }
+
+        /************************************/
         return binding.root
     }
 
 
 
-    fun getRecycler(page: Int, list: String?, sorting: String?, genreOption: String?) {
+     private fun getRecycler(page: Int, list: String?, sorting: String?, genreOption: String?) {
 
         val retrofitbuilder = Retrofit.Builder()
             .baseUrl("https://moviesdatabase.p.rapidapi.com")
@@ -272,11 +281,10 @@ class Home_Fragment : Fragment() {
                                     watchlist?.add(data!!)
                                 }
 
-//                            Log.i("TAGY" , watchlist[0].imdbID.toString())
-//                            Toast.makeText(context, "${watchlist.count()}", Toast.LENGTH_SHORT).show()
 
 
                                 binding.progressBar2.visibility = View.GONE
+                                binding.swipeRefresh.isRefreshing = false
 
                                 adapter = MyAdapter(context!!, movieList!!, watchlist!!)
                                 binding.rvHomeContainer.adapter = adapter
