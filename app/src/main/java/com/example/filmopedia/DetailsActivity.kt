@@ -48,6 +48,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val getData: Bundle? = intent.extras
 
+        binding.checkWatchlist.isClickable = false
         val title = getData?.get("title")
         val url = getData?.get("url")
         val id = getData?.get("id")
@@ -84,6 +85,7 @@ class DetailsActivity : AppCompatActivity() {
 //                Log.i("TAGY" , response.body()?.results?.averageRating.toString())
 
                 binding.progressBar.visibility = View.GONE
+                binding.checkWatchlist.isClickable = true
                 if (response.body()?.results != null && response.body()?.results?.averageRating != null ) {
                     binding.rating.setText(response.body()?.results?.averageRating.toString())
                 }
@@ -93,7 +95,7 @@ class DetailsActivity : AppCompatActivity() {
                 }
 
                 if (url != null){
-                    Glide.with(this@DetailsActivity).load(url).into(binding.poster)
+                    Glide.with(baseContext).load(url).into(binding.poster)
 
                 }
                 if (year != null){
