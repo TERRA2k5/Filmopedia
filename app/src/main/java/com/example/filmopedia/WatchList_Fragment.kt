@@ -2,18 +2,15 @@ package com.example.filmopedia
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.filmopedia.data.MovieResponse
 import com.example.filmopedia.data.WatchListData
 import com.example.filmopedia.databinding.FragmentWatchListBinding
-import com.example.filmopedia.model.MyAdapter
 import com.example.filmopedia.model.WatchlistAdapter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -23,11 +20,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 class WatchList_Fragment : Fragment() {
 
@@ -66,7 +59,7 @@ class WatchList_Fragment : Fragment() {
 
         dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-        dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 watchlist.clear()
 
@@ -78,13 +71,16 @@ class WatchList_Fragment : Fragment() {
                     }
 
 
-                    adapter = WatchlistAdapter(context!!, watchlist)
+                    adapter = WatchlistAdapter(context!!)
                     binding.rvWatchList?.adapter = adapter
 
                     binding.rvWatchList?.layoutManager = GridLayoutManager(context, 2)
 
-
                     binding.swipeRefresh.isRefreshing = false
+
+                    /**********/
+                    adapter.differ.submitList(watchlist)
+                    /*********/
 
                     adapter.setOnClickListener(object :
                         WatchlistAdapter.onClickListener {

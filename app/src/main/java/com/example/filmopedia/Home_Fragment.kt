@@ -187,27 +187,27 @@ class Home_Fragment : Fragment() {
             }
 
         }
-        binding.nextBtn.setOnClickListener() {
-            if (page < 20) {
-                binding.progressBar2.visibility = View.VISIBLE
-
-                page++
-                binding.page.text = page.toString()
-                getRecycler(page, list, sortOption, genreOption)
-            }
-        }
-
-
-        binding.prevBtn.setOnClickListener() {
-            if (page > 1) {
-                binding.progressBar2.visibility = View.VISIBLE
-
-                page--
-                binding.page.text = page.toString()
-                getRecycler(page, list, sortOption, genreOption)
-            }
-        }
-        binding.prevBtn.setOnClickListener() {
+//        binding.nextBtn.setOnClickListener() {
+//            if (page < 20) {
+//                binding.progressBar2.visibility = View.VISIBLE
+//
+//                page++
+//                binding.page.text = page.toString()
+//                getRecycler(page, list, sortOption, genreOption)
+//            }
+//        }
+//
+//
+//        binding.prevBtn.setOnClickListener() {
+//            if (page > 1) {
+//                binding.progressBar2.visibility = View.VISIBLE
+//
+//                page--
+//                binding.page.text = page.toString()
+//                getRecycler(page, list, sortOption, genreOption)
+//            }
+//        }
+        binding.imgPrev.setOnClickListener() {
             if (page > 1) {
                 binding.progressBar2.visibility = View.VISIBLE
 
@@ -282,13 +282,16 @@ class Home_Fragment : Fragment() {
                                 }
 
 
-
+                                binding.imgNext.isClickable = true
                                 binding.progressBar2.visibility = View.GONE
                                 binding.swipeRefresh.isRefreshing = false
 
                                 adapter = MyAdapter(context!!, movieList!!, watchlist!!)
                                 binding.rvHomeContainer.adapter = adapter
 
+                                if (adapter.itemCount == 0){
+                                    binding.imgNext.isClickable = false
+                                }
                                 binding.rvHomeContainer.layoutManager =
                                     GridLayoutManager(context!!, 2)
 
@@ -302,6 +305,10 @@ class Home_Fragment : Fragment() {
 
                                 adapter = MyAdapter(context!!, movieList!!, watchlist!!)
                                 binding.rvHomeContainer.adapter = adapter
+
+                                if (adapter.itemCount == 0){
+                                    binding.imgNext.isClickable = false
+                                }
 
                                 binding.rvHomeContainer.layoutManager =
                                     GridLayoutManager(context!!, 2)

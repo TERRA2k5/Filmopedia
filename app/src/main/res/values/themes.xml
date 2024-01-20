@@ -20,6 +20,10 @@
         <item name="android:background">@color/pink</item>
     </style>
 
+    <style name="page_bar">
+        <item name="background">@color/white</item>
+    </style>
+
     <style name="Theme.Filmopedia" parent="Base.Theme.Filmopedia" />
 
     

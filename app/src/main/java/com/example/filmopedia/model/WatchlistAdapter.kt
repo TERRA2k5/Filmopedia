@@ -8,6 +8,8 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.filmopedia.R
@@ -18,13 +20,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
 
-class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListData>) :
+class WatchlistAdapter(var context: Context) :
     RecyclerView.Adapter<WatchlistAdapter.MyViewHolder>() {
 
     private lateinit var auth: FirebaseAuth
 
     private lateinit var mListerner: onClickListener
 
+
+    /******************************/
     interface onClickListener{
         fun onClick(position: Int)
     }
@@ -34,7 +38,7 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
         mListerner = listener
 
     }
-
+    /************************************/
 
 
     inner class MyViewHolder(itemView: View , listener: onClickListener) : RecyclerView.ViewHolder(itemView) {
@@ -64,17 +68,17 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
         val v: View =
             LayoutInflater.from(context).inflate(R.layout.recycler_viewholder, parent, false)
 
-        return MyViewHolder(v , mListerner)
+        return MyViewHolder(v , mListerner )
     }
 
 
     override fun getItemCount(): Int {
-        return watchlist.count()
+        return differ.currentList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val item = watchlist[position]
+        val item = differ.currentList[position]
         holder.tvTitle.setText(item.title.toString())
 
         if (item.year != null) {
@@ -154,5 +158,17 @@ class WatchlistAdapter(var context: Context, var watchlist: ArrayList<WatchListD
             }
         }
     }
+
+    private  val differ_callback = object: DiffUtil.ItemCallback<WatchListData>(){
+        override fun areItemsTheSame(oldItem: WatchListData, newItem: WatchListData): Boolean {
+            return oldItem.imdbID == newItem.imdbID
+        }
+
+        override fun areContentsTheSame(oldItem: WatchListData, newItem: WatchListData): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    val differ = AsyncListDiffer(this , differ_callback)
 
 }

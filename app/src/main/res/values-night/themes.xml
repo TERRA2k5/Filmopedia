@@ -28,5 +28,9 @@
         <item name="android:background">@color/black</item>
     </style>
 
+    <style name="page_bar">
+        <item name="background">@color/black</item>
+    </style>
+
 
 </resources>

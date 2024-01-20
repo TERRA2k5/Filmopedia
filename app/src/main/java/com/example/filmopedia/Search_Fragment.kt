@@ -48,6 +48,7 @@ open class Search_Fragment : Fragment() {
 
         binding.searchBtn.clearFocus()
         binding.progressBarSearch.visibility = View.GONE
+        binding.noresult.visibility = View.GONE
 
 
         var page = 1
@@ -66,40 +67,22 @@ open class Search_Fragment : Fragment() {
 
                         binding.imgNext.setOnClickListener() {
                             if (page < 20) {
-                                binding.progressBarSearch.visibility = View.VISIBLE
-                                page++
-                                binding.page.text = page.toString()
-                                getRecycler(query, page)
-                            }
-
-                        }
-                        binding.nextBtn.setOnClickListener() {
-                            if (page < 20) {
-                                binding.progressBarSearch.visibility = View.VISIBLE
-
-                                page++
-                                binding.page.text = page.toString()
-                                getRecycler(query, page)
+                                if (binding.noresult.visibility == View.GONE) {
+                                    binding.progressBarSearch.visibility = View.VISIBLE
+                                    page++
+                                    binding.page.text = page.toString()
+                                    getRecycler(query, page)
+                                }
                             }
                         }
 
-
-                        binding.prevBtn.setOnClickListener() {
+                        binding.imgPrev.setOnClickListener() {
                             if (page > 1) {
                                 binding.progressBarSearch.visibility = View.VISIBLE
-
                                 page--
                                 binding.page.text = page.toString()
                                 getRecycler(query, page)
-                            }
-                        }
-                        binding.prevBtn.setOnClickListener() {
-                            if (page > 1) {
-                                binding.progressBarSearch.visibility = View.VISIBLE
 
-                                page--
-                                binding.page.text = page.toString()
-                                getRecycler(query, page)
                             }
                         }
 
@@ -125,27 +108,7 @@ open class Search_Fragment : Fragment() {
                             }
 
                         }
-                        binding.nextBtn.setOnClickListener() {
-                            if (page < 20) {
-                                binding.progressBarSearch.visibility = View.VISIBLE
-
-                                page++
-                                binding.page.text = page.toString()
-                                getRecycler(newText!!, page)
-                            }
-                        }
-
-
-                        binding.prevBtn.setOnClickListener() {
-                            if (page > 1) {
-                                binding.progressBarSearch.visibility = View.VISIBLE
-
-                                page--
-                                binding.page.text = page.toString()
-                                getRecycler(newText!!, page)
-                            }
-                        }
-                        binding.prevBtn.setOnClickListener() {
+                        binding.imgPrev.setOnClickListener() {
                             if (page > 1) {
                                 binding.progressBarSearch.visibility = View.VISIBLE
 
@@ -188,7 +151,7 @@ open class Search_Fragment : Fragment() {
             ) {
                 var responsebody = response.body()
 
-                if (responsebody?.results != null ){
+                if (responsebody?.results != null) {
 
                     val movieList = responsebody?.results!!
 
@@ -220,14 +183,18 @@ open class Search_Fragment : Fragment() {
 
 
                                 binding.progressBarSearch.visibility = View.GONE
-                                binding.noresult.setText("")
+                                binding.noresult.visibility = View.GONE
+                                binding.tvNoresult.setText("")
+                                binding.imgNext.isClickable = true
 
 
                                 adapter = MyAdapter(context!!, movieList, watchlist)
                                 binding.rvSearchContainer.adapter = adapter
 
                                 if (adapter.itemCount == 0) {
-                                    binding.noresult.setText("No Movies Found")
+                                    binding.noresult.visibility = View.VISIBLE
+                                    binding.tvNoresult.setText("No Movies Found")
+                                    binding.imgNext.isClickable = false
                                 }
 
                                 binding.rvSearchContainer.layoutManager =
@@ -238,39 +205,40 @@ open class Search_Fragment : Fragment() {
 
 
                                 binding.progressBarSearch.visibility = View.GONE
-                                binding.noresult.setText("")
+                                binding.noresult.visibility = View.GONE
 
 
                                 adapter = MyAdapter(context!!, movieList, watchlist)
                                 binding.rvSearchContainer.adapter = adapter
 
                                 if (adapter.itemCount == 0) {
-                                    binding.noresult.setText("No Movies Found")
+                                    binding.noresult.visibility = View.VISIBLE
+                                    binding.tvNoresult.setText("No Movies Found")
                                 }
 
                                 binding.rvSearchContainer.layoutManager =
                                     GridLayoutManager(context!!, 2)
                             }
 
-                            adapter.setOnClickListener(object: MyAdapter.onClickListener{
+                            adapter.setOnClickListener(object : MyAdapter.onClickListener {
                                 override fun onClick(position: Int) {
 
                                     val item = movieList[position]
 
-                                    var i = Intent(context , DetailsActivity::class.java)
+                                    var i = Intent(context, DetailsActivity::class.java)
 
-                                    if (item.titleText != null){
-                                        i.putExtra("title" , item.titleText.text.toString())
+                                    if (item.titleText != null) {
+                                        i.putExtra("title", item.titleText.text.toString())
                                     }
 
-                                    if (item.primaryImage != null){
-                                        i.putExtra("url" , item.primaryImage.url.toString())
+                                    if (item.primaryImage != null) {
+                                        i.putExtra("url", item.primaryImage.url.toString())
                                     }
-                                    if (item.releaseYear != null){
-                                        i.putExtra("year" , item.releaseYear.year)
+                                    if (item.releaseYear != null) {
+                                        i.putExtra("year", item.releaseYear.year)
                                     }
-                                    if (item.id != null){
-                                        i.putExtra("id" , item.id.toString())
+                                    if (item.id != null) {
+                                        i.putExtra("id", item.id.toString())
                                     }
                                     startActivity(i)
                                 }

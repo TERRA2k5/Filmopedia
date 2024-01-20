@@ -20,7 +20,7 @@
                 android:layout_marginTop="15dp"
                 android:elevation="7dp"
                 android:shadowColor="@color/black"
-                android:text="# WatchList"
+                android:text="  WatchList"
                 android:textColor="@color/offWhite"
                 android:textSize="50sp"
                 android:textStyle="bold|italic" />
