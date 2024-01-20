@@ -12,20 +12,30 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.filmopedia.CallBack.MyDiffUtil
 import com.example.filmopedia.R
 import com.example.filmopedia.data.MoviesData
 import com.example.filmopedia.data.WatchListData
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-class WatchlistAdapter(var context: Context) :
+class WatchlistAdapter(var context: Context ) :
     RecyclerView.Adapter<WatchlistAdapter.MyViewHolder>() {
 
     private lateinit var auth: FirebaseAuth
 
     private lateinit var mListerner: onClickListener
+
+    private var watchList: List<WatchListData> = emptyList()
+
+    lateinit var dbRef : DatabaseReference
+
 
 
     /******************************/
@@ -73,12 +83,12 @@ class WatchlistAdapter(var context: Context) :
 
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return watchList.count()
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val item = differ.currentList[position]
+        val item = watchList[position]
         holder.tvTitle.setText(item.title.toString())
 
         if (item.year != null) {
@@ -155,20 +165,37 @@ class WatchlistAdapter(var context: Context) :
                 Toast.makeText(context, "Removed from WatchList", Toast.LENGTH_SHORT)
                     .show()
                 myRef.child(item.imdbID.toString()).removeValue()
+
+                dbRef = FirebaseDatabase.getInstance().getReference(email)
+
+                /***************MAKING NEW LIST OF DiffUtil **************/
+                dbRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val newlist = mutableListOf<WatchListData>()
+
+
+                        if (snapshot.exists()) {
+                            for (i in snapshot.children) {
+                                val data = i.getValue(WatchListData::class.java)
+                                newlist.add(data!!)
+                            }
+                        }
+
+                        setData(newlist)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
             }
         }
     }
 
-    private  val differ_callback = object: DiffUtil.ItemCallback<WatchListData>(){
-        override fun areItemsTheSame(oldItem: WatchListData, newItem: WatchListData): Boolean {
-            return oldItem.imdbID == newItem.imdbID
-        }
-
-        override fun areContentsTheSame(oldItem: WatchListData, newItem: WatchListData): Boolean {
-            return oldItem == newItem
-        }
+    /**********************/
+    fun setData(newData: List<WatchListData>) {
+        val diffResult = DiffUtil.calculateDiff(MyDiffUtil(watchList, newData))
+        watchList = newData
+        diffResult.dispatchUpdatesTo(this)
     }
-
-    val differ = AsyncListDiffer(this , differ_callback)
-
 }

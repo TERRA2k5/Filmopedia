@@ -116,4 +116,6 @@ dependencies {
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+
 }

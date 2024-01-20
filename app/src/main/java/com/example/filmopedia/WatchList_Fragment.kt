@@ -27,7 +27,6 @@ class WatchList_Fragment : Fragment() {
     private lateinit var binding: FragmentWatchListBinding
     private lateinit var adapter: WatchlistAdapter
     private lateinit var auth: FirebaseAuth
-    lateinit var watchlist: ArrayList<WatchListData>
     lateinit var dbRef : DatabaseReference
 
     override fun onCreateView(
@@ -49,7 +48,6 @@ class WatchList_Fragment : Fragment() {
     private fun getRecycler(){
 
         auth = Firebase.auth
-        watchlist = arrayListOf<WatchListData>()
         var email = auth.currentUser?.email.toString()
 
         email = email.replace(".", "")
@@ -59,9 +57,13 @@ class WatchList_Fragment : Fragment() {
 
         dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-        dbRef.addValueEventListener(object : ValueEventListener {
+        dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+
+        /****Sending Data only at create *****/
+
             override fun onDataChange(snapshot: DataSnapshot) {
-                watchlist.clear()
+                val watchlist = mutableListOf<WatchListData>()
+
 
                 if (snapshot.exists()) {
                     for (i in snapshot.children) {
@@ -70,17 +72,17 @@ class WatchList_Fragment : Fragment() {
 
                     }
 
-
                     adapter = WatchlistAdapter(context!!)
+
+                    /*** SENDING DATA ***/
+                    adapter.setData(watchlist)
+                    /*********/
+
                     binding.rvWatchList?.adapter = adapter
 
                     binding.rvWatchList?.layoutManager = GridLayoutManager(context, 2)
 
                     binding.swipeRefresh.isRefreshing = false
-
-                    /**********/
-                    adapter.differ.submitList(watchlist)
-                    /*********/
 
                     adapter.setOnClickListener(object :
                         WatchlistAdapter.onClickListener {

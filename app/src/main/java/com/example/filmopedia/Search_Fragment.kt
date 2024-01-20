@@ -53,6 +53,8 @@ open class Search_Fragment : Fragment() {
 
         var page = 1
         binding.page.setText(page.toString())
+        binding.tvNoresult.setText("")
+
 
 
         binding.searchBtn.setOnQueryTextListener(
@@ -86,6 +88,10 @@ open class Search_Fragment : Fragment() {
                             }
                         }
 
+                        binding.swipeRefresh.setOnRefreshListener {
+                            getRecycler(query , page)
+                        }
+
                     }
                     return true
                 }
@@ -111,7 +117,6 @@ open class Search_Fragment : Fragment() {
                         binding.imgPrev.setOnClickListener() {
                             if (page > 1) {
                                 binding.progressBarSearch.visibility = View.VISIBLE
-
                                 page--
                                 binding.page.text = page.toString()
                                 getRecycler(newText!!, page)
@@ -142,7 +147,6 @@ open class Search_Fragment : Fragment() {
 
 //        Log.i("TAGY" , sorting.toString())
 
-
         retrofitData.enqueue(object : Callback<MovieResponse?> {
 
             override fun onResponse(
@@ -154,8 +158,7 @@ open class Search_Fragment : Fragment() {
                 if (responsebody?.results != null) {
 
                     val movieList = responsebody?.results!!
-
-
+                    binding.swipeRefresh.isRefreshing = false
                     auth = Firebase.auth
                     var email = auth.currentUser?.email.toString()
 
@@ -188,6 +191,7 @@ open class Search_Fragment : Fragment() {
                                 binding.imgNext.isClickable = true
 
 
+
                                 adapter = MyAdapter(context!!, movieList, watchlist)
                                 binding.rvSearchContainer.adapter = adapter
 
@@ -201,12 +205,13 @@ open class Search_Fragment : Fragment() {
                                     GridLayoutManager(context!!, 2)
 
 
-                            } else {
-
+                                }
+                            else {
 
                                 binding.progressBarSearch.visibility = View.GONE
                                 binding.noresult.visibility = View.GONE
-
+                                binding.tvNoresult.setText("")
+                                binding.imgNext.isClickable = true
 
                                 adapter = MyAdapter(context!!, movieList, watchlist)
                                 binding.rvSearchContainer.adapter = adapter
@@ -214,10 +219,11 @@ open class Search_Fragment : Fragment() {
                                 if (adapter.itemCount == 0) {
                                     binding.noresult.visibility = View.VISIBLE
                                     binding.tvNoresult.setText("No Movies Found")
+                                    binding.imgNext.isClickable = false
                                 }
 
-                                binding.rvSearchContainer.layoutManager =
-                                    GridLayoutManager(context!!, 2)
+                                binding.rvSearchContainer.layoutManager = GridLayoutManager(context!!, 2)
+
                             }
 
                             adapter.setOnClickListener(object : MyAdapter.onClickListener {
