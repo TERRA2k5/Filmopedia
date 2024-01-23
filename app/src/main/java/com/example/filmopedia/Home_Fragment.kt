@@ -187,26 +187,7 @@ class Home_Fragment : Fragment() {
             }
 
         }
-//        binding.nextBtn.setOnClickListener() {
-//            if (page < 20) {
-//                binding.progressBar2.visibility = View.VISIBLE
-//
-//                page++
-//                binding.page.text = page.toString()
-//                getRecycler(page, list, sortOption, genreOption)
-//            }
-//        }
-//
-//
-//        binding.prevBtn.setOnClickListener() {
-//            if (page > 1) {
-//                binding.progressBar2.visibility = View.VISIBLE
-//
-//                page--
-//                binding.page.text = page.toString()
-//                getRecycler(page, list, sortOption, genreOption)
-//            }
-//        }
+
         binding.imgPrev.setOnClickListener() {
             if (page > 1) {
                 binding.progressBar2.visibility = View.VISIBLE

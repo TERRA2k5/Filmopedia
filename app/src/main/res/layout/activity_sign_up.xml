@@ -70,6 +70,7 @@
                 android:background="@android:color/transparent"
                 android:theme="@style/Back"
                 android:layout_width="wrap_content"
+                android:fontFamily="@font/titillium"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="88dp"
                 android:layout_marginBottom="13dp"
@@ -90,7 +91,7 @@
                 android:hint="Enter your name"
                 android:inputType="text"
                 android:paddingStart="5dp"
-                android:textColor="@color/white"
+                android:textColor="@color/offWhite"
                 app:layout_constraintBottom_toTopOf="@+id/tvSignIn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -106,7 +107,7 @@
                 android:hint="Enter your email address"
                 android:inputType="textEmailAddress"
                 android:paddingStart="5dp"
-                android:textColor="@color/white"
+                android:textColor="@color/offWhite"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -129,11 +130,9 @@
                     android:id="@+id/password_up"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:theme="@style/search_back"
                     android:hint="Enter your password"
+                    android:textColor="@color/offWhite"
                     android:inputType="textPassword" />
-
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -142,9 +141,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="60dp"
-                android:background="@color/white"
-                android:backgroundTint="@color/white"
-                android:shadowColor="@color/white"
+                android:background="@drawable/btn_back"
+                android:shadowColor="@color/black"
+                android:elevation="50dp"
                 android:text="Sign Up"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/tvSignIn"
@@ -160,7 +159,7 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:text="Already a User? \n Click Here"
-                android:textColor="@color/white"
+                android:textColor="@color/grey_1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

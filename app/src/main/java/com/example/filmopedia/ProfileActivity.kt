@@ -2,6 +2,7 @@ package com.example.filmopedia
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -106,28 +108,58 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.profileCard.setOnClickListener() {
-
-            val builder = AlertDialog.Builder(this)
-            builder.setMessage("Do you want to change Profile Picture ?")
-
-            builder.setPositiveButton("Yes") {
-
-                    dailog, which ->
-
-                var openGallary: Intent =
-                    Intent(Intent.ACTION_PICK, Images.Media.EXTERNAL_CONTENT_URI)
-                startActivityForResult(openGallary, 1)
-
-            }
-
-            builder.setNegativeButton("No") { dialog, which ->
-                dialog.cancel()
-            }
-
-            val alertDialog = builder.create()
-            // Show the Alert Dialog box
-            alertDialog.show()
+            changepic()
         }
+
+        binding.changeName.setOnClickListener(){
+            changename()
+        }
+    }
+
+    private fun changename() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Name")
+
+        val customLayout: View = layoutInflater.inflate(R.layout.changename_dialog , null)
+        builder.setView(customLayout)
+
+        // add a button
+        builder.setPositiveButton("OK") { dialog: DialogInterface?, which: Int ->
+            // send data from the AlertDialog to the Activity
+            val editText = customLayout.findViewById<EditText>(R.id.tvchangename)
+            val newName = editText.text.toString()
+            val dbRef = FirebaseDatabase.getInstance().getReference(auth.currentUser?.uid.toString())
+            dbRef.child("name").setValue(newName)
+            binding.etName.setText(newName)
+            Toast.makeText(this, "Profile Updated.", Toast.LENGTH_SHORT).show()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun changepic() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Do you want to change Profile Picture ?")
+
+        builder.setPositiveButton("Yes") {
+
+                dailog, which ->
+
+            var openGallary: Intent =
+                Intent(Intent.ACTION_PICK, Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(openGallary, 1)
+
+        }
+
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.cancel()
+        }
+
+        val alertDialog = builder.create()
+        // Show the Alert Dialog box
+        alertDialog.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

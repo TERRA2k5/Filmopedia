@@ -64,19 +64,6 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-<!--                            <TextView-->
-<!--                                android:id="@+id/prevBtn"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:clickable="true"-->
-<!--                                android:text=" Previous"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:textSize="20dp"-->
-<!--                                android:textStyle="bold"-->
-<!--                                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                                app:layout_constraintStart_toEndOf="@+id/imgPrev"-->
-<!--                                app:layout_constraintTop_toTopOf="parent"-->
-<!--                                app:layout_constraintVertical_bias="0.5" />-->
 
                             <TextView
                                 android:id="@+id/page"
@@ -92,21 +79,6 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-
-<!--                            <TextView-->
-<!--                                android:id="@+id/nextBtn"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginEnd="32dp"-->
-<!--                                android:clickable="true"-->
-<!--                                android:text="Next "-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:textSize="20dp"-->
-<!--                                android:textStyle="bold"-->
-<!--                                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                                app:layout_constraintTop_toTopOf="parent"-->
-<!--                                app:layout_constraintVertical_bias="0.5" />-->
 
                             <ImageView
                                 android:id="@+id/imgNext"
@@ -134,6 +106,7 @@
                 android:layout_height="50dp"
                 android:text="Sort"
                 android:textColor="@color/white"
+                android:fontFamily="@font/titillium"
                 android:textSize="25dp"
                 android:theme="@style/spinner_back"
                 app:layout_constraintEnd_toStartOf="@+id/btnFilter"
@@ -150,6 +123,7 @@
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 android:theme="@style/spinner_back"
+                android:fontFamily="@font/titillium"
                 app:layout_constraintBottom_toBottomOf="@+id/btnSort"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

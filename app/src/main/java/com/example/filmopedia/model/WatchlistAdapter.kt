@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.filmopedia.CallBack.MyDiffUtil
 import com.example.filmopedia.R
+import com.example.filmopedia.WatchList_Fragment
 import com.example.filmopedia.data.MoviesData
 import com.example.filmopedia.data.WatchListData
 import com.google.firebase.Firebase
@@ -83,12 +83,12 @@ class WatchlistAdapter(var context: Context ) :
 
 
     override fun getItemCount(): Int {
-        return watchList.count()
+        return differ.currentList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val item = watchList[position]
+        val item = differ.currentList[position]
         holder.tvTitle.setText(item.title.toString())
 
         if (item.year != null) {
@@ -181,7 +181,8 @@ class WatchlistAdapter(var context: Context ) :
                             }
                         }
 
-                        setData(newlist)
+                        differ.submitList(newlist)
+
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -193,9 +194,17 @@ class WatchlistAdapter(var context: Context ) :
     }
 
     /**********************/
-    fun setData(newData: List<WatchListData>) {
-        val diffResult = DiffUtil.calculateDiff(MyDiffUtil(watchList, newData))
-        watchList = newData
-        diffResult.dispatchUpdatesTo(this)
+    private val differ_callBack = object: DiffUtil.ItemCallback<WatchListData>(){
+        override fun areItemsTheSame(oldItem: WatchListData, newItem: WatchListData): Boolean {
+            return oldItem.imdbID == newItem.imdbID
+        }
+
+        override fun areContentsTheSame(oldItem: WatchListData, newItem: WatchListData): Boolean {
+            return oldItem == newItem
+        }
+
     }
+
+    val differ = AsyncListDiffer(this , differ_callBack)
+
 }

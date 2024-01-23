@@ -51,8 +51,8 @@ open class Search_Fragment : Fragment() {
         binding.noresult.visibility = View.GONE
 
 
-        var page = 1
-        binding.page.setText(page.toString())
+
+        binding.page.setText("1")
         binding.tvNoresult.setText("")
 
 
@@ -62,7 +62,8 @@ open class Search_Fragment : Fragment() {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (query != null) {
 
-
+                        var page = 1
+                        binding.page.setText(page.toString())
                         binding.progressBarSearch.visibility = View.VISIBLE
                         getRecycler(query, page)
 
@@ -100,9 +101,7 @@ open class Search_Fragment : Fragment() {
 
                     if (newText != "") {
                         var page = 1
-//                        var sorting: String? = sortOption
-
-
+                        binding.page.setText(page.toString())
                         getRecycler(newText!!, page)
 
                         binding.imgNext.setOnClickListener() {

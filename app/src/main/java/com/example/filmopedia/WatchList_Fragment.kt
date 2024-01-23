@@ -36,16 +36,16 @@ class WatchList_Fragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_watch_list_, container, false)
 
-        getRecycler()
+        getWatchRecycler()
 
         binding.swipeRefresh.setOnRefreshListener {
-            getRecycler()
+            getWatchRecycler()
         }
 
         return binding.root
     }
 
-    private fun getRecycler(){
+     fun getWatchRecycler(){
 
         auth = Firebase.auth
         var email = auth.currentUser?.email.toString()
@@ -75,7 +75,7 @@ class WatchList_Fragment : Fragment() {
                     adapter = WatchlistAdapter(context!!)
 
                     /*** SENDING DATA ***/
-                    adapter.setData(watchlist)
+                    adapter.differ.submitList(watchlist)
                     /*********/
 
                     binding.rvWatchList?.adapter = adapter
@@ -88,7 +88,7 @@ class WatchList_Fragment : Fragment() {
                         WatchlistAdapter.onClickListener {
                         override fun onClick(position: Int) {
 
-                            val item = watchlist[position]
+                            val item = adapter.differ.currentList[position]
 
                             var i = Intent(context, DetailsActivity::class.java)
 

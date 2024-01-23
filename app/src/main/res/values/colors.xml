@@ -6,7 +6,11 @@
     <color name="grey_2">#343a40</color>
     <color name="mint">#d8e2dc</color>
     <color name="red">#7D0A0A</color>
+    <color name="blue_1">#669bbc</color>
+    <color name="blue_dark">#003566</color>
+    <color name="black_2">#0a0908</color>
     <color name="offWhite">#adb5bd</color>
+    <color name="black_ll">#333533</color>
     <color name="yellow">#ffb703</color>
     <color name="brown">#463f3a</color>
     <color name="blue_2">#00296b</color>

@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Filmopedia" parent="Theme.AppCompat.Light">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/pink</item>
-        <item name="colorSecondary">@color/grey_1</item>
+         <item name="colorPrimary">@color/blue_1</item>
+        <item name="colorSecondary">@color/blue_2</item>
 
     </style>
 
@@ -12,16 +12,24 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="btn_bg">
+        <item name="android:background">@drawable/btn_back</item>
+    </style>
+
     <style name="nav_back" >
         <item name="android:background">@color/white</item>
     </style>
 
     <style name="search_back" >
-        <item name="android:background">@color/pink</item>
+        <item name="android:background">@color/blue_1</item>
     </style>
 
     <style name="page_bar">
         <item name="background">@color/white</item>
+    </style>
+
+    <style name="watchlist_text">
+        <item name="android:textColor">@color/grey_2</item>
     </style>
 
     <style name="Theme.Filmopedia" parent="Base.Theme.Filmopedia" />
