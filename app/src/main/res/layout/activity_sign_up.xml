@@ -90,7 +90,7 @@
                 android:hint="Enter your name"
                 android:inputType="text"
                 android:paddingStart="5dp"
-                android:textColor="@color/offWhite"
+                android:textColor="@color/grey_1"
                 app:layout_constraintBottom_toTopOf="@+id/tvSignIn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -105,7 +105,7 @@
                 android:hint="Enter your email address"
                 android:inputType="textEmailAddress"
                 android:paddingStart="5dp"
-                android:textColor="@color/offWhite"
+                android:textColor="@color/grey_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Enter your password"
-                    android:textColor="@color/offWhite"
+                    android:textColor="@color/grey_1"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
