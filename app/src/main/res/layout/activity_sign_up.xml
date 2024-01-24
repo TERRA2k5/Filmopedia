@@ -84,7 +84,6 @@
             <EditText
                 android:id="@+id/username"
                 android:layout_width="300dp"
-                android:background="@android:color/transparent"
                 android:layout_height="50dp"
                 android:layout_marginTop="323dp"
                 android:layout_marginBottom="284dp"
@@ -101,7 +100,6 @@
             <EditText
                 android:id="@+id/email_up"
                 android:layout_width="300dp"
-                android:background="@android:color/transparent"
                 android:layout_height="50dp"
                 android:layout_marginTop="32dp"
                 android:hint="Enter your email address"
@@ -119,7 +117,7 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="55dp"
                 android:layout_marginTop="32dp"
-                android:background="@android:color/transparent"
+                android:theme="@style/pass_back"
                 android:layout_marginEnd="55dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -32,8 +32,6 @@ class WatchlistAdapter(var context: Context ) :
 
     private lateinit var mListerner: onClickListener
 
-    private var watchList: List<WatchListData> = emptyList()
-
     lateinit var dbRef : DatabaseReference
 
 
@@ -92,7 +90,9 @@ class WatchlistAdapter(var context: Context ) :
         holder.tvTitle.setText(item.title.toString())
 
         if (item.year != null) {
-            holder.tvYear.text = "Year: ${item.year}"
+            holder.tvYear.text = "Year: ${item.year.toString()}"
+        } else{
+            holder.imPoster.setImageResource(R.drawable.baseline_image_not_supported_24)
         }
 
         if (item.url != null) {
@@ -103,45 +103,12 @@ class WatchlistAdapter(var context: Context ) :
 
         holder.bookMark.setOnCheckedChangeListener { checkBox, isChecked ->
 
-            val data: WatchListData
-
-            var image_url: String? = null
-            var movie_title: String? = null
-            var imdb: String? = null
-            var release: Int?= null
-
-
-            if (item.url != null){
-                image_url = item.url.toString()
-            }
-
-            if (item.title != null){
-                movie_title = item.title.toString()
-            }
-
-            if (item.imdbID != null){
-                imdb = item.imdbID.toString()
-            }
-
-            if (item.year != null){
-                release = item.year.hashCode()
-            }
-
-
-            data = WatchListData(
-                imdb,
-                movie_title,
-                image_url,
-                release
-            )
-
 
             auth = Firebase.auth
 
             var email = auth.currentUser?.email.toString()
 
 
-//            Toast.makeText(context, "$email", Toast.LENGTH_SHORT).show()
             email = email.replace(".", "")
             email = email.replace("[", "")
             email = email.replace("]", "")
@@ -154,21 +121,18 @@ class WatchlistAdapter(var context: Context ) :
 
 
 
-            /** adding to realtime database **/
+            /** removing from realtime database **/
 
-            if (isChecked) {
-                Toast.makeText(context, "Added to WatchList", Toast.LENGTH_SHORT)
-                    .show()
-                myRef.child(item.imdbID.toString()).setValue(data)
 
-            } else {
+
+            if(!isChecked) {
                 Toast.makeText(context, "Removed from WatchList", Toast.LENGTH_SHORT)
                     .show()
                 myRef.child(item.imdbID.toString()).removeValue()
 
                 dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-                /***************MAKING NEW LIST OF DiffUtil **************/
+                /***************MAKING NEW LIST FOR DiffUtil **************/
                 dbRef.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val newlist = mutableListOf<WatchListData>()

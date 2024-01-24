@@ -95,11 +95,11 @@ class DetailsActivity : AppCompatActivity() {
                 }
 
                 if (url != null){
-                    Glide.with(baseContext).load(url).into(binding.poster)
+                    Glide.with(baseContext).load(url.toString()).into(binding.poster)
 
                 }
                 if (year != null){
-                    binding.year.setText("Release Year : ${year}")
+                    binding.year.setText("Release Year : ${year.toString()}")
                 }
 
                 if (id != null){
@@ -137,7 +137,7 @@ class DetailsActivity : AppCompatActivity() {
                     imdb = id.toString()
                 }
 
-                if (year.hashCode() != null){
+                if (year != null){
                     release = year.hashCode()
                 }
 
@@ -151,7 +151,7 @@ class DetailsActivity : AppCompatActivity() {
 
                 dbRef = FirebaseDatabase.getInstance().getReference(email)
 
-                dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                dbRef.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
 
                         watchlist?.clear()

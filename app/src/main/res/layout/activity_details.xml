@@ -42,7 +42,7 @@
             android:layout_marginTop="64dp"
             android:background="@android:color/transparent"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:theme="@style/Back"
             android:textSize="25dp"
 
             android:textStyle="bold"

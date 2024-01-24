@@ -45,6 +45,11 @@ class WatchList_Fragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        getWatchRecycler()
+    }
      fun getWatchRecycler(){
 
         auth = Firebase.auth

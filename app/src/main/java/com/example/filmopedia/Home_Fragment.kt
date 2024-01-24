@@ -43,6 +43,12 @@ class Home_Fragment : Fragment() {
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
 
+    /********/
+    var page: Int = 1
+    var list: String? = "top_boxoffice_200"
+    var sortOption: String? = "year.decr"
+    var genreOption: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,8 +59,8 @@ class Home_Fragment : Fragment() {
 
         database = Firebase.database.reference
 
-        var page: Int = 1
-        var list: String? = null
+        binding.tvNoresult.setText("")
+        binding.noresult.visibility = View.GONE
 
 
         /** making sort spinner **/
@@ -67,6 +73,7 @@ class Home_Fragment : Fragment() {
             )
             binding.btnSort.adapter = adapter
         }
+        binding.btnSort.setSelection(0)
 
 
         /** making genre spinner **/
@@ -80,11 +87,11 @@ class Home_Fragment : Fragment() {
             )
             binding.btnFilter.adapter = adapter
         }
+        binding.btnFilter.setSelection(0)
 
 
         /** Genre query **/
 
-        var genreOption: String? = null
 
         binding.btnFilter.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -109,9 +116,8 @@ class Home_Fragment : Fragment() {
 
 
                 }
-//                binding.btnSort.setSelection(0)
 
-                getRecycler(page, list, "year.decr", genreOption)
+                getRecycler(page, list, sortOption, genreOption)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -122,8 +128,10 @@ class Home_Fragment : Fragment() {
 
         /** Sorting query **/
 
-        var sortOption: String? = null
 
+
+
+        /** changing pages **/
         binding.btnSort.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
 
@@ -140,7 +148,6 @@ class Home_Fragment : Fragment() {
                     binding.page.setText(page.toString())
                     list = "top_boxoffice_200"
                     binding.progressBar2.visibility = View.VISIBLE
-                    getRecycler(page, list, sortOption, genreOption)
                 }
 
                 if (sort[position].toString() == "Latest First") {
@@ -149,7 +156,6 @@ class Home_Fragment : Fragment() {
                     page = 1
                     binding.page.setText(page.toString())
                     binding.progressBar2.visibility = View.VISIBLE
-                    getRecycler(page, list, sortOption, genreOption)
 
                 } else if (sort[position].toString() == "Old First") {
                     sortOption = "year.incr"
@@ -157,25 +163,19 @@ class Home_Fragment : Fragment() {
                     page = 1
                     binding.page.setText(page.toString())
                     binding.progressBar2.visibility = View.VISIBLE
-                    getRecycler(page, list, sortOption, genreOption)
 
                 } else {
                     sortOption = "year.decr"
                 }
+
+                getRecycler(page, list, sortOption, genreOption)
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
         }
-
-
-        /** getting home page **/
-
-        getRecycler(page, "top_boxoffice_200", "year.decr", null)
-
-
-        /** changing pages **/
 
 
         binding.imgNext.setOnClickListener() {
@@ -208,6 +208,14 @@ class Home_Fragment : Fragment() {
 
         /************************************/
         return binding.root
+    }
+    
+    override fun onResume() {
+        super.onResume()
+
+//        Toast.makeText(context, "Resume", Toast.LENGTH_SHORT).show()
+        getRecycler(page , list , sortOption , genreOption )
+
     }
 
 
@@ -262,17 +270,24 @@ class Home_Fragment : Fragment() {
                                     watchlist?.add(data!!)
                                 }
 
-
+                                /*********/
+                                binding.tvNoresult.setText("")
+                                binding.noresult.visibility = View.GONE
                                 binding.imgNext.isClickable = true
                                 binding.progressBar2.visibility = View.GONE
                                 binding.swipeRefresh.isRefreshing = false
+                                /*********/
 
                                 adapter = MyAdapter(context!!, movieList!!, watchlist!!)
                                 binding.rvHomeContainer.adapter = adapter
 
+                                /*** No Result ***/
                                 if (adapter.itemCount == 0){
+                                    binding.noresult.visibility = View.VISIBLE
+                                    binding.tvNoresult.setText("No Movies Found")
                                     binding.imgNext.isClickable = false
                                 }
+
                                 binding.rvHomeContainer.layoutManager =
                                     GridLayoutManager(context!!, 2)
 

@@ -39,6 +39,11 @@ open class Search_Fragment : Fragment() {
     lateinit var dbRef: DatabaseReference
     private lateinit var auth: FirebaseAuth
 
+
+    /****/
+    var page = 1
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,7 +67,7 @@ open class Search_Fragment : Fragment() {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (query != null) {
 
-                        var page = 1
+                        page = 1
                         binding.page.setText(page.toString())
                         binding.progressBarSearch.visibility = View.VISIBLE
                         getRecycler(query, page)
@@ -100,7 +105,7 @@ open class Search_Fragment : Fragment() {
                 override fun onQueryTextChange(newText: String?): Boolean {
 
                     if (newText != "") {
-                        var page = 1
+                        page = 1
                         binding.page.setText(page.toString())
                         getRecycler(newText!!, page)
 
@@ -131,6 +136,12 @@ open class Search_Fragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        getRecycler(binding.searchBtn.query.toString()!! , page)
+
+    }
 
     fun getRecycler(key: String, page: Int) {
 
