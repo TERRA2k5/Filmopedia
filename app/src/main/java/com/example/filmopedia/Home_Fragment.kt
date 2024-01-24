@@ -214,7 +214,9 @@ class Home_Fragment : Fragment() {
         super.onResume()
 
 //        Toast.makeText(context, "Resume", Toast.LENGTH_SHORT).show()
-        getRecycler(page , list , sortOption , genreOption )
+        binding.progressBar2.visibility = View.VISIBLE
+        binding.rvHomeContainer.layoutManager = null
+        getRecycler(page,list,sortOption,genreOption)
 
     }
 
@@ -273,6 +275,7 @@ class Home_Fragment : Fragment() {
                                 /*********/
                                 binding.tvNoresult.setText("")
                                 binding.noresult.visibility = View.GONE
+                                binding.rvHomeContainer.setOnTouchListener { _, _ -> false }
                                 binding.imgNext.isClickable = true
                                 binding.progressBar2.visibility = View.GONE
                                 binding.swipeRefresh.isRefreshing = false

@@ -139,6 +139,8 @@ open class Search_Fragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        binding.progressBarSearch.visibility = View.VISIBLE
+        binding.rvSearchContainer.layoutManager = null
         getRecycler(binding.searchBtn.query.toString()!! , page)
 
     }
