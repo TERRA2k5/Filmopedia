@@ -1,9 +1,14 @@
 package com.example.filmopedia
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
@@ -16,6 +21,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
+import com.google.firebase.storage.storage
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -24,6 +30,11 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
+    var storage = Firebase.storage
+
+    var image_uri: Uri? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -35,6 +46,10 @@ class SignUpActivity : AppCompatActivity() {
 
         database = Firebase.database.reference
         auth = Firebase.auth
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
 
         binding.tvSignIn.setOnClickListener(){
             val i = Intent(this, MainActivity::class.java)
@@ -58,6 +73,10 @@ class SignUpActivity : AppCompatActivity() {
             else{
                 binding.emailUp.error = "Enter valid Email ID"
             }
+        }
+
+        binding.profileCard.setOnClickListener(){
+            changepic()
         }
     }
 
@@ -94,12 +113,13 @@ class SignUpActivity : AppCompatActivity() {
 
                     val dbRef = FirebaseDatabase.getInstance().getReference(auth.currentUser?.uid.toString())
                     dbRef.child("name").setValue(binding.username.text.toString())
+                    UploadImage(image_uri)
                     GoHome()
                 }
 
                 else if (binding.passwordUp.length() < 8){
 
-                    binding.passwordUp.error = "Password must be at least 6 letters"
+                    binding.passwordUp.error = "Password must be at least 8 letters"
                 }
                 else {
                     // If sign in fails, display a message to the user.
@@ -144,5 +164,42 @@ class SignUpActivity : AppCompatActivity() {
         pattern = Pattern.compile(EMAIL_PATTERN)
         matcher = pattern.matcher(email)
         return matcher.matches()
+    }
+
+    /****** Profile pic *****/
+
+    private fun changepic() {
+
+        var openGallary: Intent =
+            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(openGallary, 1)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                image_uri = data?.data
+                binding.profileImg.setImageURI(image_uri)
+            }
+        }
+    }
+
+    fun UploadImage(image: Uri?) {
+        if (image == null) return
+
+        auth = Firebase.auth
+
+        val storageReference = storage.reference.child("Profiles").child(auth.currentUser?.uid.toString())
+
+        storageReference.putFile(image).addOnCompleteListener {
+            if (it.isSuccessful) {
+                storageReference.downloadUrl.addOnSuccessListener {
+
+
+                }
+            }
+        }
     }
 }

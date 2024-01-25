@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -33,6 +34,13 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
 
+    /*******/
+    var movie_title: String? = null
+    var image_url: String? = null
+    var imdb: String? = null
+    var release: Int?= null
+    /*******/
+
     override fun onBackPressed() {
         super.onBackPressed()
 
@@ -49,6 +57,7 @@ class DetailsActivity : AppCompatActivity() {
         val getData: Bundle? = intent.extras
 
         binding.checkWatchlist.isClickable = false
+        binding.btnShare.isClickable = false
         val title = getData?.get("title")
         val url = getData?.get("url")
         val id = getData?.get("id")
@@ -86,6 +95,8 @@ class DetailsActivity : AppCompatActivity() {
 
                 binding.progressBar.visibility = View.GONE
                 binding.checkWatchlist.isClickable = true
+                binding.btnShare.isClickable = true
+
                 if (response.body()?.results != null && response.body()?.results?.averageRating != null ) {
                     binding.rating.setText(response.body()?.results?.averageRating.toString())
                 }
@@ -118,11 +129,6 @@ class DetailsActivity : AppCompatActivity() {
                 val watchlist = arrayListOf<WatchListData?>()
 
                 val data: WatchListData
-
-                var image_url: String? = null
-                var movie_title: String? = null
-                var imdb: String? = null
-                var release: Int?= null
 
 
                 if (url != null){
@@ -200,6 +206,14 @@ class DetailsActivity : AppCompatActivity() {
             }
         })
 
+        binding.btnShare.setOnClickListener(){
+
+            var i = Intent(Intent.ACTION_SEND)
+            i.setType("text/plain")
+            i.putExtra(Intent.EXTRA_SUBJECT , movie_title)
+            i.putExtra(Intent.EXTRA_TEXT , "Found a amazing movie ${movie_title} on Filmopedia!! \n https://www.imdb.com/title/${id.toString()}")
+            startActivity(i)
+        }
 
     }
 }

@@ -14,157 +14,166 @@
             android:background="@android:color/transparent"
             android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:background="@android:color/transparent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent">
 
-            <TextView
-                android:id="@+id/tvError"
-                android:background="@android:color/transparent"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@color/red"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/username"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/profile_card"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:elevation="12dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+                    app:cardCornerRadius="75dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:layout_marginBottom="53dp"
-                android:text="Welcome !!"
-                android:theme="@style/Back"
-                android:textSize="25dp"
-                android:textStyle="italic"
-                app:layout_constraintBottom_toTopOf="@+id/username"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="80sp"
-                android:layout_height="80sp"
-                android:background="@android:color/transparent"
+                    <ImageView
+                        android:id="@+id/profile_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/profile"></ImageView>
 
-                android:layout_marginStart="76dp"
-                android:layout_marginTop="56dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="56dp"
-                android:src="@drawable/filmopedia"
-                app:layout_constraintBottom_toTopOf="@+id/textView3"
-                app:layout_constraintEnd_toStartOf="@+id/textView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:background="@android:color/transparent"
-                android:theme="@style/Back"
-                android:layout_width="wrap_content"
-                android:fontFamily="@font/titillium"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="88dp"
-                android:layout_marginBottom="13dp"
-                android:text="@string/app_name"
-                android:textSize="32sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView" />
+                </androidx.cardview.widget.CardView>
 
-            <EditText
-                android:id="@+id/username"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="323dp"
-                android:layout_marginBottom="284dp"
-                android:hint="Enter your name"
-                android:inputType="text"
-                android:paddingStart="5dp"
-                android:textColor="@color/grey_1"
-                app:layout_constraintBottom_toTopOf="@+id/tvSignIn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvError"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/red"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/username"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.504"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_card" />
 
-            <EditText
-                android:id="@+id/email_up"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="32dp"
-                android:hint="Enter your email address"
-                android:inputType="textEmailAddress"
-                android:paddingStart="5dp"
-                android:textColor="@color/grey_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.504"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/username" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/titillium"
+                    android:text="@string/app_name"
+                    android:textSize="20sp"
+                    android:textStyle="bold|italic"
+                    android:theme="@style/Back"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="@+id/imageView" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/pass_box"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="55dp"
-                android:layout_marginTop="32dp"
-                android:theme="@style/pass_back"
-                android:layout_marginEnd="55dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email_up"
-                app:passwordToggleEnabled="true">
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="50sp"
+                    android:layout_height="50sp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/filmopedia"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/password_up"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Enter your password"
+                    android:id="@+id/username"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="323dp"
+                    android:layout_marginBottom="284dp"
+                    android:hint="Enter your name"
+                    android:inputType="text"
+                    android:paddingStart="5dp"
                     android:textColor="@color/grey_1"
-                    android:inputType="textPassword" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintBottom_toTopOf="@+id/tvSignIn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/btnSignUp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="60dp"
-                android:background="@drawable/btn_back"
-                android:shadowColor="@color/black"
-                android:elevation="50dp"
-                android:text="Sign Up"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="@+id/tvSignIn"
-                app:layout_constraintTop_toBottomOf="@+id/pass_box" />
+                <EditText
+                    android:id="@+id/email_up"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="32dp"
+                    android:hint="Enter your email address"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="5dp"
+                    android:textColor="@color/grey_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.504"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/username" />
 
-            <TextView
-                android:id="@+id/tvSignIn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@android:color/transparent"
-                android:layout_marginBottom="38dp"
-                android:clickable="true"
-                android:gravity="center"
-                android:text="Already a User? \n Click Here"
-                android:textColor="@color/grey_1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/username" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/pass_box"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="55dp"
+                    android:theme="@style/pass_back"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/email_up"
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:id="@+id/password_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Enter your password"
+                        android:inputType="textPassword"
+                        android:textColor="@color/grey_1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnSignUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="60dp"
+                    android:background="@drawable/btn_back"
+                    android:elevation="50dp"
+                    android:shadowColor="@color/black"
+                    android:text="Sign Up"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="@+id/tvSignIn"
+                    app:layout_constraintTop_toBottomOf="@+id/pass_box" />
+
+                <TextView
+                    android:id="@+id/tvSignIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="38dp"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="Already a User? \n Click Here"
+                    android:textColor="@color/grey_1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/username" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </ScrollView>

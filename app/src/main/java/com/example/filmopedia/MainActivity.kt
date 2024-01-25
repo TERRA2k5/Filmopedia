@@ -29,6 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         binding.tvSignUp.setOnClickListener(){
             val i = Intent(this, SignUpActivity::class.java)
             finish()

@@ -38,6 +38,7 @@ open class Search_Fragment : Fragment() {
     private lateinit var adapter: MyAdapter
     lateinit var dbRef: DatabaseReference
     private lateinit var auth: FirebaseAuth
+    var test = 0
 
 
     /****/
@@ -139,10 +140,9 @@ open class Search_Fragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        binding.progressBarSearch.visibility = View.VISIBLE
+        if (test > 0){ binding.progressBarSearch.visibility = View.VISIBLE }
         binding.rvSearchContainer.layoutManager = null
         getRecycler(binding.searchBtn.query.toString()!! , page)
-
     }
 
     fun getRecycler(key: String, page: Int) {
@@ -241,6 +241,7 @@ open class Search_Fragment : Fragment() {
                             adapter.setOnClickListener(object : MyAdapter.onClickListener {
                                 override fun onClick(position: Int) {
 
+                                    test++
                                     val item = movieList[position]
 
                                     var i = Intent(context, DetailsActivity::class.java)
